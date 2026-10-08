@@ -1,0 +1,42 @@
+export type Sense = {
+  pos: "n" | "v" | "adj" | "adv" | "prep" | "conj" | "phr";
+  m: string[];
+};
+
+export type DictEntry = { t: string; s: Sense[] };
+
+export type Deck = {
+  id: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Card = {
+  id: string;
+  deckId: string;
+  term: string;
+  meaning: string;
+  createdAt: string;
+};
+
+export type ReviewState = {
+  cardId: string;
+  box: number;
+  dueAt: string;
+  lastReviewedAt: string | null;
+};
+
+export type AppData = {
+  decks: Deck[];
+  cards: Card[];
+  reviews: ReviewState[];
+};
+
+export type StudyCard = {
+  id: string;
+  term: string;
+  meaning: string;
+  box: number;
+  deckTitle: string;
+};

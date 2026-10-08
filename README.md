@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FlashFlip
 
-## Getting Started
+FlashFlip คือเว็บฝึกจำคำศัพท์ภาษาอังกฤษสำหรับคนไทยที่ออกแบบจากฟีดแบ็กจริงสองข้อ: การกรอกคำศัพท์ทีละคำเป็นงานที่น่าเบื่อ และคำที่ยังจำไม่ได้ควรถูกนำกลับมาสุ่มฝึกทุกวัน
 
-First, run the development server:
+ผู้ใช้พิมพ์เพียง 2–3 ตัวอักษรแล้วเลือกคำและความหมายภาษาไทยจากพจนานุกรมได้ทันที หรือวางหลายบรรทัดจาก Excel/Google Sheets ระบบจะเติมความหมายที่รู้จักให้เอง ระหว่างฝึก คำที่กด “จำไม่ได้” จะวนกลับมาในรอบเดิม ส่วนคำที่จำได้ตั้งแต่ครั้งแรกจะถูกนัดทบทวนด้วยระบบ Leitner
+
+## จุดเด่น
+
+- เพิ่มคำต่อเนื่องได้เร็วด้วย autocomplete, keyboard navigation และตัวเลือกความหมาย
+- วางคำอังกฤษล้วนหรือรูปแบบ `คำ - ความหมาย` ได้สูงสุด 500 บรรทัด พร้อม preview ข้อผิดพลาดและคำซ้ำ
+- สุ่มฝึกไม่เกิน 20 ใบ คำที่ลืมวนกลับมาจนตอบได้ แต่ยังคงอยู่ในกองสำหรับวันถัดไป
+- ใช้งานบนมือถือ รองรับ dark mode ตามระบบ, keyboard shortcut และ reduced motion
+
+## สถาปัตยกรรม
+
+โปรเจกต์ใช้ Next.js 16 App Router, React 19, TypeScript strict, Tailwind CSS 4 และ shadcn/ui tokens โดยแยก business logic ออกจาก UI:
+
+- `src/lib/dictionary.ts` — ค้นคำแบบ prefix-first และ exact lookup
+- `src/lib/parse-bulk.ts` — parser สำหรับข้อความหลายรูปแบบ
+- `src/lib/leitner.ts` — คำนวณระดับและวันทบทวนที่ 00:00 เวลาไทย
+- `src/lib/study-session.ts` — reducer สำหรับคิวฝึกและกฎคำที่ออก/อยู่ในกอง
+- `src/components/app-provider.tsx` — data layer สำหรับรุ่น single-user
+
+รุ่นนี้ตั้งใจให้เพื่อนหนึ่งคนใช้โดยยังไม่มี Login ข้อมูลกอง คำศัพท์ และสถานะทบทวนจึงเก็บใน `localStorage` ของเบราว์เซอร์ ข้อดีคือ deploy แล้วใช้งานได้ทันทีและไม่ต้องเปิดฐานข้อมูลสาธารณะ ข้อจำกัดคือข้อมูลไม่ซิงก์ข้ามอุปกรณ์และจะหายเมื่อผู้ใช้ล้างข้อมูลเว็บไซต์
+
+พจนานุกรมเริ่มต้นอยู่ใน `src/data/dictionary.json` เพื่อให้ค้นหาได้ทันทีโดยไม่ส่งทุก keystroke ไป server และเปลี่ยนแหล่งข้อมูลในอนาคตได้จากไฟล์เดียว ข้อมูลคำศัพท์/คำแปลชุดนี้สร้างโดย AI และควรได้รับการตรวจทานโดยผู้เชี่ยวชาญก่อนใช้ในบริบทสำคัญ
+
+## วิธีรัน
+
+ต้องใช้ Node.js รุ่นที่รองรับ Next.js 16 จากนั้นรัน:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+คำสั่งตรวจคุณภาพ:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm test
+npm run build
+```
 
-## Learn More
+## Deploy บน Vercel
 
-To learn more about Next.js, take a look at the following resources:
+1. Push repository ขึ้น GitHub
+2. Import repository ใน Vercel
+3. ใช้ค่าตรวจพบอัตโนมัติสำหรับ Next.js และกด Deploy
+4. รุ่น local-first นี้ไม่ต้องตั้ง environment variable
+5. เปิดลิงก์ production ด้วยอุปกรณ์ที่จะใช้งานจริงและเพิ่มคำทดสอบหนึ่งคำ
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## สิ่งที่จะทำต่อ
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- เพิ่ม Supabase + Email Magic Link เมื่อจำเป็นต้องซิงก์ข้ามเครื่องหรือรองรับหลายผู้ใช้
+- เพิ่ม export/import สำรองข้อมูลก่อนย้ายออกจาก local storage
+- ขยายและตรวจทานพจนานุกรมกับแหล่งข้อมูลที่มีสิทธิ์ใช้งานชัดเจน
+- เพิ่ม E2E test สำหรับ flow เพิ่มคำ วางหลายคำ และฝึกครบหนึ่งรอบ
