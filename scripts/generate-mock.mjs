@@ -10,35 +10,49 @@ const option = (name, fallback) => {
   return index >= 0 ? Number(args[index + 1]) : fallback;
 };
 const seed = option("seed", 42);
-const randomCount = option("random", 15);
+const randomCount = option("random", 30);
 
-// "remembered" words get a review state (box 1, due tomorrow) so decks show mixed statuses.
+// Every card starts in the pile (no review state), like a fresh install.
 const TOPICS = [
   {
     title: "งานและ TOEIC",
-    words: ["negotiate", "postpone", "invoice", "colleague", "deadline", "reimburse", "agenda", "schedule", "budget", "meeting", "manager", "report", "project", "attend", "approve", "deposit", "warranty", "itinerary", "headquarters", "supervisor", "workload", "recruit", "vacancy", "confidential"],
-    remembered: ["meeting", "manager", "report", "project", "budget"],
+    words: ["negotiate", "postpone", "invoice", "colleague", "deadline", "reimburse", "agenda", "schedule", "budget", "meeting", "manager", "report", "project", "attend", "approve", "deposit", "warranty", "itinerary", "headquarters", "supervisor", "workload", "recruit", "vacancy", "confidential", "applicant", "interview", "salary", "promotion", "resign", "contract"],
   },
   {
     title: "อารมณ์และความรู้สึก",
-    words: ["awkward", "stubborn", "jealous", "embarrassed", "anxious", "nervous", "frustrated", "grateful", "guilty", "proud", "lonely", "excited", "worried", "scared", "surprised", "upset", "bored", "curious", "confident", "disappointed"],
-    remembered: ["excited", "worried", "scared", "bored"],
+    words: ["awkward", "stubborn", "jealous", "embarrassed", "anxious", "nervous", "frustrated", "grateful", "guilty", "proud", "lonely", "excited", "worried", "scared", "surprised", "upset", "bored", "curious", "confident", "disappointed", "annoyed", "ashamed", "relieved", "confused", "exhausted", "thrilled", "miserable", "satisfied", "impatient", "homesick"],
   },
   {
     title: "ศัพท์จากซีรีส์",
-    words: ["betray", "gossip", "revenge", "suspicious", "pretend", "regret", "apologize", "forgive", "cheat", "hilarious", "ridiculous", "apparently", "literally", "seriously", "weird", "deserve", "admit", "deny"],
-    remembered: ["weird", "seriously"],
+    words: ["betray", "gossip", "revenge", "suspicious", "pretend", "regret", "apologize", "forgive", "cheat", "hilarious", "ridiculous", "apparently", "literally", "seriously", "weird", "deserve", "admit", "deny", "secret", "rumor", "trust", "lie", "promise", "threaten", "blame", "rescue", "innocent", "villain", "dramatic"],
   },
   {
     title: "ชีวิตประจำวัน",
-    words: ["cheap", "expensive", "hungry", "delicious", "crowded", "weather", "weekend", "holiday", "restaurant", "ticket", "price", "borrow", "lend", "afford", "convenient", "comfortable", "hurry", "healthy", "symptom", "prescription", "souvenir"],
-    // Fully remembered on purpose: shows the "จำได้ครบ" state on the home page.
-    remembered: "all",
+    words: ["cheap", "expensive", "hungry", "delicious", "crowded", "weather", "weekend", "holiday", "restaurant", "ticket", "price", "borrow", "lend", "afford", "convenient", "comfortable", "hurry", "healthy", "symptom", "prescription", "souvenir", "grocery", "laundry", "neighbor", "rent", "bill", "receipt", "breakfast", "traffic", "umbrella"],
   },
   {
     title: "Phrasal verbs ที่เจอบ่อย",
-    words: ["look forward to", "come up with", "run out of", "get along with", "put up with", "give up", "find out", "turn down", "show up", "call off", "figure out", "put off", "wake up", "look for", "look after", "pick up", "hang out", "catch up", "end up", "get over"],
-    remembered: ["give up", "wake up", "look for"],
+    words: ["look forward to", "come up with", "run out of", "get along with", "put up with", "give up", "find out", "turn down", "show up", "call off", "figure out", "put off", "wake up", "look for", "look after", "pick up", "hang out", "catch up", "end up", "get over", "set up", "carry out", "turn out", "sort out", "break down", "bring up", "go over", "point out", "take care of", "get rid of"],
+  },
+  {
+    title: "การเดินทาง",
+    words: ["airport", "passport", "luggage", "flight", "delay", "boarding", "destination", "journey", "reservation", "hotel", "tourist", "abroad", "map", "direction", "arrive", "depart", "cancel", "explore", "sightseeing", "guide", "station", "platform", "departure", "arrival", "customs", "currency", "backpack", "accommodation", "adventure"],
+  },
+  {
+    title: "สุขภาพ",
+    words: ["sick", "fever", "headache", "cough", "medicine", "pharmacy", "hospital", "doctor", "nurse", "injury", "pain", "exercise", "diet", "recover", "allergy", "sore", "tired", "rest", "sleep", "stress", "weight", "vitamin", "patient", "treatment", "clinic", "emergency", "ambulance"],
+  },
+  {
+    title: "ผู้คนและนิสัย",
+    words: ["friend", "family", "stranger", "relative", "parent", "cousin", "partner", "couple", "boss", "guest", "host", "teenager", "adult", "generous", "selfish", "polite", "rude", "honest", "friendly", "shy", "brave", "lazy", "kind", "funny", "loyal", "mean"],
+  },
+  {
+    title: "คำกริยาที่ใช้บ่อย",
+    words: ["achieve", "improve", "encourage", "persuade", "suggest", "recommend", "explain", "describe", "remind", "realize", "consider", "decide", "prefer", "expect", "avoid", "prevent", "require", "include", "manage", "mention", "complain", "argue", "agree", "refuse", "accept", "allow", "offer", "ignore", "compare", "depend"],
+  },
+  {
+    title: "คำคุณศัพท์ที่ใช้บ่อย",
+    words: ["available", "obvious", "similar", "familiar", "reliable", "responsible", "necessary", "possible", "impossible", "important", "serious", "simple", "complicated", "difficult", "easy", "useful", "useless", "ordinary", "unique", "typical", "accurate", "efficient", "flexible", "urgent", "valuable", "essential", "major", "minor", "recent", "modern"],
   },
 ];
 
@@ -59,7 +73,6 @@ function mulberry32(a) {
 const used = new Set();
 const problems = [];
 const decks = TOPICS.map((topic) => {
-  const remembered = new Set(topic.remembered === "all" ? topic.words : topic.remembered);
   const cards = [];
   for (const term of topic.words) {
     const entry = byTerm.get(term);
@@ -67,7 +80,7 @@ const decks = TOPICS.map((topic) => {
     else if (used.has(term)) problems.push(`"${term}" ซ้ำกับกองอื่น`);
     else {
       used.add(term);
-      cards.push({ term, meaning: meaningOf(entry), remembered: remembered.has(term) });
+      cards.push({ term, meaning: meaningOf(entry) });
     }
   }
   return { title: topic.title, cards };
@@ -84,7 +97,7 @@ const picked = pool.slice(0, randomCount).sort((a, b) => a.t.localeCompare(b.t))
 picked.forEach((entry) => used.add(entry.t));
 decks.push({
   title: "สุ่มรวมหลายหมวด",
-  cards: picked.map((entry) => ({ term: entry.t, meaning: meaningOf(entry), remembered: false })),
+  cards: picked.map((entry) => ({ term: entry.t, meaning: meaningOf(entry) })),
 });
 
 if (problems.length) {
@@ -97,6 +110,6 @@ writeFileSync(new URL("../src/data/mock-decks.json", import.meta.url), JSON.stri
 
 const total = decks.reduce((sum, deck) => sum + deck.cards.length, 0);
 for (const deck of decks) {
-  console.log(`${deck.title}: ${deck.cards.length} คำ (จำได้แล้ว ${deck.cards.filter((card) => card.remembered).length})`);
+  console.log(`${deck.title}: ${deck.cards.length} คำ`);
 }
 console.log(`รวม ${total} คำ ไม่ซ้ำกัน ${used.size} คำ → src/data/mock-decks.json`);

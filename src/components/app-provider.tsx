@@ -10,7 +10,6 @@ import {
   type ReactNode,
 } from "react";
 import { toast } from "sonner";
-import { nextReviewState } from "@/lib/leitner";
 import type { AppData, Card, Deck, ReviewState, SampleDeck } from "@/lib/types";
 
 const STORAGE_KEY = "flashflip-data-v2";
@@ -177,34 +176,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const importSampleDecks = useCallback((samples: SampleDeck[]) => {
     const now = new Date();
-    const remembered = nextReviewState({ box: 0 }, "remembered", now);
     setData((current) => {
       const decks: Deck[] = [];
       const cards: Card[] = [];
-      const reviews: ReviewState[] = [];
       samples.forEach((sample, deckIndex) => {
         const stamp = new Date(now.getTime() + deckIndex).toISOString();
         const deck = { id: makeId(), title: sample.title, createdAt: stamp, updatedAt: stamp };
         decks.push(deck);
         sample.cards.forEach((sampleCard, cardIndex) => {
-          const card = {
+          cards.push({
             id: makeId(),
             deckId: deck.id,
             term: sampleCard.term,
             meaning: sampleCard.meaning,
             createdAt: new Date(now.getTime() - deckIndex * 1000 - cardIndex).toISOString(),
-          };
-          cards.push(card);
-          if (sampleCard.remembered) {
-            reviews.push({ cardId: card.id, box: remembered.box, dueAt: remembered.dueAt.toISOString(), lastReviewedAt: now.toISOString() });
-          }
+          });
         });
       });
       return {
         // Home lists newest decks first, so append in reverse to keep the sample order on screen.
         decks: [...current.decks, ...decks.reverse()],
         cards: [...cards, ...current.cards],
-        reviews: [...current.reviews, ...reviews],
+        reviews: current.reviews,
       };
     });
   }, []);

@@ -31,8 +31,8 @@ src/
     leitner.ts         คำนวณระดับและวันนัดทวน (ไม่ใช้ date library)
     study-session.ts   reducer ของรอบฝึก + กฎว่าคำไหนออกจากกอง
   data/
-    dictionary.json    พจนานุกรม ~1,260 คำ
-    mock-decks.json    ชุดคำตัวอย่าง (สร้างจาก npm run mock)
+    dictionary.json    พจนานุกรม ~1,300 คำ
+    mock-decks.json    ชุดคำตัวอย่าง 11 กอง ~320 คำ (สร้างจาก npm run mock)
 scripts/generate-mock.mjs
 docs/                  SPEC.md และ demo.html (ต้นแบบหน้าตา)
 ```
@@ -60,7 +60,7 @@ npm run dev        # http://localhost:3000
 | `npm run lint` | ตรวจโค้ด |
 | `npm test` | unit test ของ `src/lib` |
 | `npm run build` | build production |
-| `npm run mock` | สร้าง `src/data/mock-decks.json` ใหม่ (`-- --seed 7 --random 20` เปลี่ยนชุดสุ่ม) |
+| `npm run mock` | สร้าง `src/data/mock-decks.json` ใหม่ (`-- --seed 7 --random 40` เปลี่ยนชุดสุ่ม) |
 
 ## Deploy บน Vercel
 
