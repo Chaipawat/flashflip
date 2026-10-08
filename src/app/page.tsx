@@ -3,7 +3,27 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, BookOpen, ChevronRight, Layers, MessageCircle, Plus, Sparkles, Star, X } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  BriefcaseBusiness,
+  ChevronRight,
+  Clapperboard,
+  GraduationCap,
+  Heart,
+  HeartPulse,
+  Laptop,
+  Layers,
+  Leaf,
+  MessageCircle,
+  Plus,
+  Shuffle,
+  Sparkles,
+  Star,
+  Utensils,
+  WalletCards,
+  X,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Brand, Topbar } from "@/components/app-header";
 import { dueCardIds, useAppData } from "@/components/app-provider";
@@ -98,6 +118,9 @@ export default function HomePage() {
       <div className="home-grid">
         <div className="home-main">
           <h1 className="greet">เก่งขึ้นอีกนิดทุกวัน</h1>
+          <p className="home-kicker">
+            เพิ่มคำง่าย ๆ แล้วกลับมาทวนเฉพาะคำที่ยังไม่แม่น
+          </p>
           <Link href="/add" className="quickadd">
             <Plus className="qa-plus" strokeWidth={2.8} aria-hidden="true" />
             พิมพ์คำอังกฤษที่อยากจำ…
@@ -167,12 +190,14 @@ export default function HomePage() {
           )}
 
           {decks.length > 0 ? (
-            <ul className="list">
+            <ul className="list deck-grid">
               {decks.map((deck, index) => {
                 const cards = data.cards.filter((card) => card.deckId === deck.id);
                 const due = cards.filter((card) => dueIds.has(card.id)).length;
                 const remembered = cards.length - due;
-                const Icon = DECK_ICONS[index % DECK_ICONS.length];
+                const Icon =
+                  DECK_ICON_BY_TITLE[deck.title] ??
+                  DECK_ICONS[index % DECK_ICONS.length];
                 return (
                   <li key={deck.id}>
                     <Link href={`/deck/${deck.id}`} className="row">
@@ -207,3 +232,18 @@ export default function HomePage() {
 }
 
 const DECK_ICONS = [Layers, BookOpen, MessageCircle, Star];
+
+const DECK_ICON_BY_TITLE: Record<string, typeof Heart> = {
+  "สุ่มรวมหลายหมวด": Shuffle,
+  "Phrasal verbs ที่เจอบ่อย": MessageCircle,
+  "ชีวิตประจำวัน": Heart,
+  "ศัพท์จากซีรีส์": Clapperboard,
+  "อารมณ์และความรู้สึก": HeartPulse,
+  "งานและ TOEIC": BriefcaseBusiness,
+  "สุขภาพ": HeartPulse,
+  "เทคโนโลยีและโลกออนไลน์": Laptop,
+  "การเรียนและการศึกษา": GraduationCap,
+  "เงินและการเงิน": WalletCards,
+  "อาหารและร้านอาหาร": Utensils,
+  "ธรรมชาติและสิ่งแวดล้อม": Leaf,
+};

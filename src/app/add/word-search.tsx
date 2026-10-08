@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronLeft, Search } from "lucide-react";
+import { BookOpen, Check, ChevronLeft, Search, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Topbar } from "@/components/app-header";
 import { latestDeck, useAppData } from "@/components/app-provider";
@@ -125,66 +125,95 @@ export function AddWordPage({ initialDeckId }: { initialDeckId?: string }) {
   if (!ready) return <AddSkeleton />;
 
   return (
-    <main className="page-shell">
+    <main className="page-shell add-page">
       <Topbar>
         <button type="button" className="iconbtn" onClick={goBack}>
           <ChevronLeft aria-hidden="true" /> เสร็จแล้ว
         </button>
       </Topbar>
-      <h1 className="h1">เพิ่มคำ</h1>
 
-      <div className="pilepick">
-        <label htmlFor="deck-picker">เพิ่มลงกอง</label>
-        {targetDeck ? (
-          <select id="deck-picker" value={targetDeck.id} onChange={(event) => setDeckId(event.target.value)}>
-            {data.decks.map((deck) => <option key={deck.id} value={deck.id}>{deck.title}</option>)}
-          </select>
-        ) : <strong id="deck-picker">กองของฉัน</strong>}
-      </div>
+      <header className="add-heading">
+        <span className="add-eyebrow">
+          <Sparkles aria-hidden="true" /> สร้างคลังคำของคุณ
+        </span>
+        <h1 className="h1">เพิ่มคำศัพท์</h1>
+        <p>ค้นหาคำ เลือกความหมาย แล้วเก็บลงกองไว้ทวนภายหลัง</p>
+      </header>
 
-      <div className="combo">
-        <Search className="si" aria-hidden="true" />
-        <label className="sr-only" htmlFor="word-search">คำภาษาอังกฤษ</label>
-        <input
-          ref={inputRef}
-          id="word-search"
-          className="field"
-          value={query}
-          onChange={(event) => changeQuery(event.target.value)}
-          onKeyDown={onKeyDown}
-          onBlur={() => setOpen(false)}
-          onFocus={() => setOpen(true)}
-          placeholder="พิมพ์คำอังกฤษ เช่น ne…"
-          autoComplete="off"
-          autoCapitalize="none"
-          spellCheck={false}
-          maxLength={100}
-          role="combobox"
-          aria-autocomplete="list"
-          aria-expanded={listOpen}
-          aria-controls="word-suggestions"
-          aria-activedescendant={listOpen ? `suggestion-${active}` : undefined}
-          autoFocus
-        />
-        <ul id="word-suggestions" className="sugg" role="listbox" aria-label="คำแนะนำ" hidden={!listOpen}>
-          {listOpen && matches.map((entry, index) => (
-            <li
-              key={entry.t}
-              id={`suggestion-${index}`}
-              role="option"
-              aria-selected={active === index}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => choose(entry)}
-            >
-              <span className="st"><Highlight text={entry.t} query={trimmed} /></span>
-              <span className="sm">{entry.s[0].m.join(", ")}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <div className="add-layout">
+        <div className="add-workflow">
+          <div className="step-heading">
+            <span className="step-number">1</span>
+            <span>
+              <strong>เลือกกองคำศัพท์</strong>
+              <small>คำใหม่จะถูกเก็บไว้ในกองนี้</small>
+            </span>
+          </div>
 
-      {(selected || notFound) && (
-        <section className="picked" aria-label={`ความหมายของ ${term}`}>
+          <div className="pilepick">
+            <label className="sr-only" htmlFor="deck-picker">เพิ่มลงกอง</label>
+            {targetDeck ? (
+              <select id="deck-picker" value={targetDeck.id} onChange={(event) => setDeckId(event.target.value)}>
+                {data.decks.map((deck) => <option key={deck.id} value={deck.id}>{deck.title}</option>)}
+              </select>
+            ) : <strong id="deck-picker">กองของฉัน</strong>}
+          </div>
+
+          <div className="step-heading search-step">
+            <span className="step-number">2</span>
+            <span>
+              <strong>ค้นหาคำภาษาอังกฤษ</strong>
+              <small>พิมพ์อย่างน้อย 2 ตัวอักษร</small>
+            </span>
+          </div>
+
+          <div className="combo">
+            <Search className="si" aria-hidden="true" />
+            <label className="sr-only" htmlFor="word-search">คำภาษาอังกฤษ</label>
+            <input
+              ref={inputRef}
+              id="word-search"
+              className="field"
+              value={query}
+              onChange={(event) => changeQuery(event.target.value)}
+              onKeyDown={onKeyDown}
+              onBlur={() => setOpen(false)}
+              onFocus={() => setOpen(true)}
+              placeholder="ลองพิมพ์ เช่น name, happy, travel…"
+              autoComplete="off"
+              autoCapitalize="none"
+              spellCheck={false}
+              maxLength={100}
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded={listOpen}
+              aria-controls="word-suggestions"
+              aria-activedescendant={listOpen ? `suggestion-${active}` : undefined}
+              autoFocus
+            />
+            <ul id="word-suggestions" className="sugg" role="listbox" aria-label="คำแนะนำ" hidden={!listOpen}>
+              {listOpen && matches.map((entry, index) => (
+                <li
+                  key={entry.t}
+                  id={`suggestion-${index}`}
+                  role="option"
+                  aria-selected={active === index}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => choose(entry)}
+                >
+                  <span className="st"><Highlight text={entry.t} query={trimmed} /></span>
+                  <span className="sm">{entry.s[0].m.join(", ")}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {(selected || notFound) && (
+            <section className="picked" aria-label={`ความหมายของ ${term}`}>
+              <div className="picked-step">
+                <span className="step-number">3</span>
+                เลือกความหมายที่ต้องการจำ
+              </div>
           <div className="pw">{term}</div>
           {selected ? (
             <>
@@ -223,20 +252,28 @@ export function AddWordPage({ initialDeckId }: { initialDeckId?: string }) {
           <button type="button" className="btn btn-primary" disabled={!canAdd} onClick={submitWord}>
             เพิ่ม “{term}” ลงกอง
           </button>
-        </section>
-      )}
+            </section>
+          )}
+        </div>
 
-      <section className="recent" aria-labelledby="recent-heading">
-        <h2 id="recent-heading">เพิ่มแล้วรอบนี้{recent.length ? ` ${recent.length} คำ` : ""}</h2>
-        <ul className="words">
-          {recent.length ? recent.map((word, index) => (
-            <li key={word.id} className={`word${index === 0 ? " new" : ""}`}>
-              <span><span className="t">{word.term}</span><span className="m">{word.meaning}</span></span>
-              <span className="pill learning">{word.deckTitle}</span>
-            </li>
-          )) : <li className="empty">คำที่เพิ่มจะขึ้นตรงนี้</li>}
-        </ul>
-      </section>
+        <section className="recent" aria-labelledby="recent-heading">
+          <div className="recent-heading">
+            <span className="recent-icon"><BookOpen aria-hidden="true" /></span>
+            <span>
+              <h2 id="recent-heading">เพิ่มแล้วรอบนี้</h2>
+              <p>{recent.length ? `${recent.length} คำพร้อมทบทวน` : "ยังไม่มีคำที่เพิ่ม"}</p>
+            </span>
+          </div>
+          <ul className={`words${recent.length ? "" : " is-empty"}`}>
+            {recent.length ? recent.map((word, index) => (
+              <li key={word.id} className={`word${index === 0 ? " new" : ""}`}>
+                <span><span className="t">{word.term}</span><span className="m">{word.meaning}</span></span>
+                <span className="pill learning">{word.deckTitle}</span>
+              </li>
+            )) : <li className="empty">คำที่เพิ่มจะปรากฏตรงนี้ทันที</li>}
+          </ul>
+        </section>
+      </div>
     </main>
   );
 }
