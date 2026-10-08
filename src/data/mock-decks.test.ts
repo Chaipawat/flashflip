@@ -34,7 +34,7 @@ describe("sample vocabulary decks", () => {
     }
   });
 
-  it("contains every category used for the six first-run decks", () => {
+  it("contains every category used for the twelve first-run decks", () => {
     const titles = new Set(mock.decks.map((deck) => deck.title));
 
     for (const title of [
@@ -44,6 +44,12 @@ describe("sample vocabulary decks", () => {
       "ศัพท์จากซีรีส์",
       "อารมณ์และความรู้สึก",
       "งานและ TOEIC",
+      "สุขภาพ",
+      "เทคโนโลยีและโลกออนไลน์",
+      "การเรียนและการศึกษา",
+      "เงินและการเงิน",
+      "อาหารและร้านอาหาร",
+      "ธรรมชาติและสิ่งแวดล้อม",
     ]) {
       expect(titles.has(title)).toBe(true);
     }

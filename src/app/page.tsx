@@ -11,7 +11,7 @@ import { HomeSkeleton } from "@/components/skeletons";
 import { SunMascot } from "@/components/sun-mascot";
 import type { SampleDeck } from "@/lib/types";
 
-const CATEGORY_SEED_KEY = "flashflip-category-decks-v1";
+const CATEGORY_SEED_KEY = "flashflip-category-decks-v2";
 const DEFAULT_CATEGORY_TITLES = [
   "สุ่มรวมหลายหมวด",
   "Phrasal verbs ที่เจอบ่อย",
@@ -19,6 +19,12 @@ const DEFAULT_CATEGORY_TITLES = [
   "ศัพท์จากซีรีส์",
   "อารมณ์และความรู้สึก",
   "งานและ TOEIC",
+  "สุขภาพ",
+  "เทคโนโลยีและโลกออนไลน์",
+  "การเรียนและการศึกษา",
+  "เงินและการเงิน",
+  "อาหารและร้านอาหาร",
+  "ธรรมชาติและสิ่งแวดล้อม",
 ] as const;
 
 export default function HomePage() {
@@ -31,25 +37,30 @@ export default function HomePage() {
   const dueCards = data.cards.filter((card) => dueIds.has(card.id));
 
   useEffect(() => {
-    if (!ready || data.decks.length > 0 || data.cards.length > 0) return;
+    if (!ready) return;
     if (localStorage.getItem(CATEGORY_SEED_KEY)) return;
 
-    // Claim the seed before the async import so Strict Mode and other tabs cannot add it twice.
+    // Claim this migration before the async import so Strict Mode and other tabs cannot add it twice.
     localStorage.setItem(CATEGORY_SEED_KEY, "1");
     import("@/data/mock-decks.json")
       .then((module) => {
         const samples = module.default.decks as SampleDeck[];
-        const defaults = DEFAULT_CATEGORY_TITLES
+        const existingTitles = new Set(data.decks.map((deck) => deck.title));
+        const missing = DEFAULT_CATEGORY_TITLES
+          .filter((title) => !existingTitles.has(title))
           .map((title) => samples.find((deck) => deck.title === title))
           .filter((deck): deck is SampleDeck => Boolean(deck));
-        importSampleDecks(defaults);
-        toast(`เตรียมกองเริ่มต้น ${defaults.length} หมวดให้แล้ว`);
+        if (!missing.length) return;
+        importSampleDecks(missing);
+        toast(data.decks.length
+          ? `เพิ่มกองหมวดหมู่ให้อีก ${missing.length} กองแล้ว`
+          : `เตรียมกองเริ่มต้น ${missing.length} หมวดให้แล้ว`);
       })
       .catch(() => {
         localStorage.removeItem(CATEGORY_SEED_KEY);
         toast.error("เตรียมกองเริ่มต้นไม่สำเร็จ ลองโหลดหน้าใหม่อีกครั้ง");
       });
-  }, [data.cards.length, data.decks.length, importSampleDecks, ready]);
+  }, [data.decks, importSampleDecks, ready]);
 
   function submitDeck(event: React.FormEvent) {
     event.preventDefault();
