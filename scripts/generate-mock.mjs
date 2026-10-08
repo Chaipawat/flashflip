@@ -54,6 +54,26 @@ const TOPICS = [
     title: "คำคุณศัพท์ที่ใช้บ่อย",
     words: ["available", "obvious", "similar", "familiar", "reliable", "responsible", "necessary", "possible", "impossible", "important", "serious", "simple", "complicated", "difficult", "easy", "useful", "useless", "ordinary", "unique", "typical", "accurate", "efficient", "flexible", "urgent", "valuable", "essential", "major", "minor", "recent", "modern"],
   },
+  {
+    title: "เทคโนโลยีและโลกออนไลน์",
+    words: ["device", "software", "browser", "upload", "download", "account", "password", "privacy", "security", "network", "battery", "screen", "keyboard", "file", "folder", "update", "install", "delete", "search", "website", "online", "offline", "application", "notification", "message", "link", "cloud", "data", "backup", "access"],
+  },
+  {
+    title: "การเรียนและการศึกษา",
+    words: ["student", "teacher", "lesson", "homework", "exam", "grade", "subject", "course", "classroom", "university", "college", "degree", "scholarship", "assignment", "research", "knowledge", "skill", "practice", "study", "learn", "education", "certificate", "presentation", "lecture", "library", "notebook", "quiz", "graduate", "academic", "workshop"],
+  },
+  {
+    title: "เงินและการเงิน",
+    words: ["money", "cash", "bank", "save", "spend", "cost", "fee", "loan", "debt", "interest", "invest", "profit", "loss", "income", "expense", "payment", "credit", "tax", "refund", "wealth", "financial", "insurance", "discount", "purchase", "exchange", "value", "earn", "charge", "economy", "balance"],
+  },
+  {
+    title: "อาหารและร้านอาหาร",
+    words: ["food", "menu", "order", "dish", "meal", "lunch", "dinner", "ingredient", "recipe", "cook", "bake", "boil", "fry", "taste", "spicy", "sweet", "salty", "fresh", "waiter", "table", "snack", "dessert", "beverage", "vegetable", "fruit", "meat", "seafood", "drink", "serve", "water"],
+  },
+  {
+    title: "ธรรมชาติและสิ่งแวดล้อม",
+    words: ["nature", "climate", "pollution", "recycle", "waste", "energy", "forest", "ocean", "river", "mountain", "beach", "animal", "plant", "tree", "flower", "earth", "storm", "flood", "drought", "protect", "environment", "wildlife", "plastic", "garbage", "temperature", "natural", "solar", "global", "resource", "green"],
+  },
 ];
 
 const dictionary = JSON.parse(readFileSync(new URL("../src/data/dictionary.json", import.meta.url), "utf8"));

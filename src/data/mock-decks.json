@@ -1217,127 +1217,752 @@
       ]
     },
     {
-      "title": "สุ่มรวมหลายหมวด",
+      "title": "เทคโนโลยีและโลกออนไลน์",
       "cards": [
         {
-          "term": "advantage",
-          "meaning": "ข้อได้เปรียบ, ข้อดี"
+          "term": "device",
+          "meaning": "อุปกรณ์"
         },
         {
-          "term": "already",
-          "meaning": "แล้ว"
+          "term": "software",
+          "meaning": "ซอฟต์แวร์"
         },
         {
-          "term": "amazing",
-          "meaning": "น่าทึ่ง, ยอดเยี่ยม"
+          "term": "browser",
+          "meaning": "เว็บเบราว์เซอร์"
         },
         {
-          "term": "argument",
-          "meaning": "การโต้เถียง"
+          "term": "upload",
+          "meaning": "อัปโหลด"
         },
         {
-          "term": "behavior",
-          "meaning": "พฤติกรรม"
+          "term": "download",
+          "meaning": "ดาวน์โหลด"
         },
         {
-          "term": "catch",
-          "meaning": "จับ, ทัน"
+          "term": "account",
+          "meaning": "บัญชี"
         },
         {
-          "term": "concern",
-          "meaning": "ความกังวล"
+          "term": "password",
+          "meaning": "รหัสผ่าน"
         },
         {
-          "term": "demand",
-          "meaning": "ความต้องการ"
+          "term": "privacy",
+          "meaning": "ความเป็นส่วนตัว"
         },
         {
-          "term": "election",
-          "meaning": "การเลือกตั้ง"
+          "term": "security",
+          "meaning": "ความปลอดภัย, ระบบรักษาความปลอดภัย"
         },
         {
-          "term": "escape",
-          "meaning": "หนี"
+          "term": "network",
+          "meaning": "เครือข่าย"
         },
         {
-          "term": "especially",
-          "meaning": "โดยเฉพาะ"
+          "term": "battery",
+          "meaning": "แบตเตอรี่"
         },
         {
-          "term": "expand",
-          "meaning": "ขยาย"
+          "term": "screen",
+          "meaning": "หน้าจอ"
         },
         {
-          "term": "extremely",
-          "meaning": "อย่างมาก, สุด ๆ"
+          "term": "keyboard",
+          "meaning": "แป้นพิมพ์"
         },
         {
-          "term": "facility",
-          "meaning": "สิ่งอำนวยความสะดวก"
+          "term": "file",
+          "meaning": "ไฟล์, แฟ้มเอกสาร"
         },
         {
-          "term": "hot",
-          "meaning": "ร้อน, เผ็ด"
+          "term": "folder",
+          "meaning": "โฟลเดอร์, แฟ้ม"
         },
         {
-          "term": "insurance",
-          "meaning": "ประกัน"
+          "term": "update",
+          "meaning": "ข้อมูลล่าสุด"
         },
         {
-          "term": "only",
-          "meaning": "เท่านั้น"
+          "term": "install",
+          "meaning": "ติดตั้ง"
         },
         {
-          "term": "pray",
-          "meaning": "สวดมนต์, ภาวนา"
+          "term": "delete",
+          "meaning": "ลบ"
         },
         {
-          "term": "productive",
-          "meaning": "มีประสิทธิผล"
+          "term": "search",
+          "meaning": "ค้นหา"
         },
         {
-          "term": "progress",
-          "meaning": "ความคืบหน้า"
+          "term": "website",
+          "meaning": "เว็บไซต์"
         },
         {
-          "term": "reserve",
-          "meaning": "จอง, สำรอง"
+          "term": "online",
+          "meaning": "ออนไลน์"
         },
         {
-          "term": "same",
-          "meaning": "เหมือนกัน"
+          "term": "offline",
+          "meaning": "ออฟไลน์, ไม่เชื่อมต่ออินเทอร์เน็ต"
         },
         {
-          "term": "situation",
-          "meaning": "สถานการณ์"
+          "term": "application",
+          "meaning": "ใบสมัคร, แอป"
         },
         {
-          "term": "stop",
-          "meaning": "หยุด"
+          "term": "notification",
+          "meaning": "การแจ้งเตือน"
         },
+        {
+          "term": "message",
+          "meaning": "ข้อความ"
+        },
+        {
+          "term": "link",
+          "meaning": "ลิงก์, ความเชื่อมโยง"
+        },
+        {
+          "term": "cloud",
+          "meaning": "เมฆ, คลาวด์"
+        },
+        {
+          "term": "data",
+          "meaning": "ข้อมูล"
+        },
+        {
+          "term": "backup",
+          "meaning": "ข้อมูลสำรอง"
+        },
+        {
+          "term": "access",
+          "meaning": "การเข้าถึง"
+        }
+      ]
+    },
+    {
+      "title": "การเรียนและการศึกษา",
+      "cards": [
         {
           "term": "student",
           "meaning": "นักเรียน"
         },
         {
-          "term": "swim",
-          "meaning": "ว่ายน้ำ"
+          "term": "teacher",
+          "meaning": "ครู"
+        },
+        {
+          "term": "lesson",
+          "meaning": "บทเรียน"
+        },
+        {
+          "term": "homework",
+          "meaning": "การบ้าน"
+        },
+        {
+          "term": "exam",
+          "meaning": "การสอบ"
+        },
+        {
+          "term": "grade",
+          "meaning": "เกรด, ระดับชั้น"
+        },
+        {
+          "term": "subject",
+          "meaning": "วิชา, หัวข้อ"
+        },
+        {
+          "term": "course",
+          "meaning": "หลักสูตร, รายวิชา"
+        },
+        {
+          "term": "classroom",
+          "meaning": "ห้องเรียน"
+        },
+        {
+          "term": "university",
+          "meaning": "มหาวิทยาลัย"
+        },
+        {
+          "term": "college",
+          "meaning": "วิทยาลัย"
+        },
+        {
+          "term": "degree",
+          "meaning": "ระดับ, ปริญญา"
+        },
+        {
+          "term": "scholarship",
+          "meaning": "ทุนการศึกษา"
+        },
+        {
+          "term": "assignment",
+          "meaning": "งานที่ได้รับมอบหมาย"
+        },
+        {
+          "term": "research",
+          "meaning": "งานวิจัย"
+        },
+        {
+          "term": "knowledge",
+          "meaning": "ความรู้"
+        },
+        {
+          "term": "skill",
+          "meaning": "ทักษะ"
+        },
+        {
+          "term": "practice",
+          "meaning": "การฝึกฝน"
+        },
+        {
+          "term": "study",
+          "meaning": "เรียน, ศึกษา"
+        },
+        {
+          "term": "learn",
+          "meaning": "เรียนรู้"
+        },
+        {
+          "term": "education",
+          "meaning": "การศึกษา"
+        },
+        {
+          "term": "certificate",
+          "meaning": "ใบรับรอง, ประกาศนียบัตร"
+        },
+        {
+          "term": "presentation",
+          "meaning": "การนำเสนอ"
+        },
+        {
+          "term": "lecture",
+          "meaning": "การบรรยาย"
+        },
+        {
+          "term": "library",
+          "meaning": "ห้องสมุด, คลังโปรแกรม"
+        },
+        {
+          "term": "notebook",
+          "meaning": "สมุดจด, โน้ตบุ๊ก"
+        },
+        {
+          "term": "quiz",
+          "meaning": "แบบทดสอบสั้น"
+        },
+        {
+          "term": "graduate",
+          "meaning": "สำเร็จการศึกษา"
+        },
+        {
+          "term": "academic",
+          "meaning": "เกี่ยวกับการศึกษา, เชิงวิชาการ"
+        },
+        {
+          "term": "workshop",
+          "meaning": "การอบรมเชิงปฏิบัติการ"
+        }
+      ]
+    },
+    {
+      "title": "เงินและการเงิน",
+      "cards": [
+        {
+          "term": "money",
+          "meaning": "เงิน"
+        },
+        {
+          "term": "cash",
+          "meaning": "เงินสด"
+        },
+        {
+          "term": "bank",
+          "meaning": "ธนาคาร"
+        },
+        {
+          "term": "save",
+          "meaning": "ประหยัด, ช่วยชีวิต, บันทึก"
+        },
+        {
+          "term": "spend",
+          "meaning": "ใช้จ่าย, ใช้เวลา"
+        },
+        {
+          "term": "cost",
+          "meaning": "ค่าใช้จ่าย"
+        },
+        {
+          "term": "fee",
+          "meaning": "ค่าธรรมเนียม"
+        },
+        {
+          "term": "loan",
+          "meaning": "เงินกู้"
+        },
+        {
+          "term": "debt",
+          "meaning": "หนี้"
+        },
+        {
+          "term": "interest",
+          "meaning": "ความสนใจ, ดอกเบี้ย"
+        },
+        {
+          "term": "invest",
+          "meaning": "ลงทุน"
+        },
+        {
+          "term": "profit",
+          "meaning": "กำไร"
+        },
+        {
+          "term": "loss",
+          "meaning": "การสูญเสีย, ขาดทุน"
+        },
+        {
+          "term": "income",
+          "meaning": "รายได้"
+        },
+        {
+          "term": "expense",
+          "meaning": "ค่าใช้จ่าย"
+        },
+        {
+          "term": "payment",
+          "meaning": "การชำระเงิน"
+        },
+        {
+          "term": "credit",
+          "meaning": "เครดิต, สินเชื่อ"
         },
         {
           "term": "tax",
           "meaning": "ภาษี"
         },
         {
-          "term": "thirsty",
-          "meaning": "กระหายน้ำ"
+          "term": "refund",
+          "meaning": "เงินคืน"
         },
         {
-          "term": "throughout",
-          "meaning": "ตลอดทั่วทั้ง"
+          "term": "wealth",
+          "meaning": "ความมั่งคั่ง, ทรัพย์สิน"
         },
         {
-          "term": "wrong",
-          "meaning": "ผิด"
+          "term": "financial",
+          "meaning": "ทางการเงิน"
+        },
+        {
+          "term": "insurance",
+          "meaning": "ประกัน"
+        },
+        {
+          "term": "discount",
+          "meaning": "ส่วนลด"
+        },
+        {
+          "term": "purchase",
+          "meaning": "การซื้อ"
+        },
+        {
+          "term": "exchange",
+          "meaning": "การแลกเปลี่ยน"
+        },
+        {
+          "term": "value",
+          "meaning": "คุณค่า, มูลค่า"
+        },
+        {
+          "term": "earn",
+          "meaning": "หาเงิน, ได้รับ"
+        },
+        {
+          "term": "charge",
+          "meaning": "ค่าธรรมเนียม"
+        },
+        {
+          "term": "economy",
+          "meaning": "เศรษฐกิจ"
+        },
+        {
+          "term": "balance",
+          "meaning": "สมดุล, ยอดคงเหลือ"
+        }
+      ]
+    },
+    {
+      "title": "อาหารและร้านอาหาร",
+      "cards": [
+        {
+          "term": "food",
+          "meaning": "อาหาร"
+        },
+        {
+          "term": "menu",
+          "meaning": "เมนู"
+        },
+        {
+          "term": "order",
+          "meaning": "คำสั่งซื้อ, ลำดับ"
+        },
+        {
+          "term": "dish",
+          "meaning": "จาน, อาหารหนึ่งอย่าง"
+        },
+        {
+          "term": "meal",
+          "meaning": "มื้ออาหาร"
+        },
+        {
+          "term": "lunch",
+          "meaning": "อาหารกลางวัน"
+        },
+        {
+          "term": "dinner",
+          "meaning": "อาหารเย็น"
+        },
+        {
+          "term": "ingredient",
+          "meaning": "ส่วนผสม"
+        },
+        {
+          "term": "recipe",
+          "meaning": "สูตรอาหาร"
+        },
+        {
+          "term": "cook",
+          "meaning": "ทำอาหาร"
+        },
+        {
+          "term": "bake",
+          "meaning": "อบ"
+        },
+        {
+          "term": "boil",
+          "meaning": "ต้ม, เดือด"
+        },
+        {
+          "term": "fry",
+          "meaning": "ทอด"
+        },
+        {
+          "term": "taste",
+          "meaning": "รสชาติ"
+        },
+        {
+          "term": "spicy",
+          "meaning": "เผ็ด, มีรสจัด"
+        },
+        {
+          "term": "sweet",
+          "meaning": "หวาน"
+        },
+        {
+          "term": "salty",
+          "meaning": "เค็ม"
+        },
+        {
+          "term": "fresh",
+          "meaning": "สด, ใหม่"
+        },
+        {
+          "term": "waiter",
+          "meaning": "พนักงานเสิร์ฟ"
+        },
+        {
+          "term": "table",
+          "meaning": "โต๊ะ"
+        },
+        {
+          "term": "snack",
+          "meaning": "ของว่าง"
+        },
+        {
+          "term": "dessert",
+          "meaning": "ของหวาน"
+        },
+        {
+          "term": "beverage",
+          "meaning": "เครื่องดื่ม"
+        },
+        {
+          "term": "vegetable",
+          "meaning": "ผัก"
+        },
+        {
+          "term": "fruit",
+          "meaning": "ผลไม้"
+        },
+        {
+          "term": "meat",
+          "meaning": "เนื้อสัตว์"
+        },
+        {
+          "term": "seafood",
+          "meaning": "อาหารทะเล"
+        },
+        {
+          "term": "drink",
+          "meaning": "ดื่ม"
+        },
+        {
+          "term": "serve",
+          "meaning": "บริการ, เสิร์ฟ"
+        },
+        {
+          "term": "water",
+          "meaning": "น้ำ"
+        }
+      ]
+    },
+    {
+      "title": "ธรรมชาติและสิ่งแวดล้อม",
+      "cards": [
+        {
+          "term": "nature",
+          "meaning": "ธรรมชาติ"
+        },
+        {
+          "term": "climate",
+          "meaning": "ภูมิอากาศ"
+        },
+        {
+          "term": "pollution",
+          "meaning": "มลพิษ"
+        },
+        {
+          "term": "recycle",
+          "meaning": "นำกลับมาใช้ใหม่, รีไซเคิล"
+        },
+        {
+          "term": "waste",
+          "meaning": "ทำให้เสียเปล่า"
+        },
+        {
+          "term": "energy",
+          "meaning": "พลังงาน"
+        },
+        {
+          "term": "forest",
+          "meaning": "ป่า"
+        },
+        {
+          "term": "ocean",
+          "meaning": "มหาสมุทร"
+        },
+        {
+          "term": "river",
+          "meaning": "แม่น้ำ"
+        },
+        {
+          "term": "mountain",
+          "meaning": "ภูเขา"
+        },
+        {
+          "term": "beach",
+          "meaning": "ชายหาด"
+        },
+        {
+          "term": "animal",
+          "meaning": "สัตว์"
+        },
+        {
+          "term": "plant",
+          "meaning": "พืช, โรงงาน"
+        },
+        {
+          "term": "tree",
+          "meaning": "ต้นไม้"
+        },
+        {
+          "term": "flower",
+          "meaning": "ดอกไม้"
+        },
+        {
+          "term": "earth",
+          "meaning": "โลก, พื้นดิน"
+        },
+        {
+          "term": "storm",
+          "meaning": "พายุ"
+        },
+        {
+          "term": "flood",
+          "meaning": "น้ำท่วม"
+        },
+        {
+          "term": "drought",
+          "meaning": "ภัยแล้ง"
+        },
+        {
+          "term": "protect",
+          "meaning": "ปกป้อง"
+        },
+        {
+          "term": "environment",
+          "meaning": "สิ่งแวดล้อม"
+        },
+        {
+          "term": "wildlife",
+          "meaning": "สัตว์ป่า"
+        },
+        {
+          "term": "plastic",
+          "meaning": "พลาสติก"
+        },
+        {
+          "term": "garbage",
+          "meaning": "ขยะ"
+        },
+        {
+          "term": "temperature",
+          "meaning": "อุณหภูมิ"
+        },
+        {
+          "term": "natural",
+          "meaning": "เป็นธรรมชาติ"
+        },
+        {
+          "term": "solar",
+          "meaning": "เกี่ยวกับดวงอาทิตย์, พลังงานแสงอาทิตย์"
+        },
+        {
+          "term": "global",
+          "meaning": "ทั่วโลก"
+        },
+        {
+          "term": "resource",
+          "meaning": "ทรัพยากร"
+        },
+        {
+          "term": "green",
+          "meaning": "สีเขียว, เป็นมิตรต่อสิ่งแวดล้อม"
+        }
+      ]
+    },
+    {
+      "title": "สุ่มรวมหลายหมวด",
+      "cards": [
+        {
+          "term": "afternoon",
+          "meaning": "ตอนบ่าย"
+        },
+        {
+          "term": "annoying",
+          "meaning": "น่ารำคาญ"
+        },
+        {
+          "term": "answer",
+          "meaning": "คำตอบ"
+        },
+        {
+          "term": "beg",
+          "meaning": "ขอร้อง, อ้อนวอน"
+        },
+        {
+          "term": "bother",
+          "meaning": "รบกวน, กวนใจ"
+        },
+        {
+          "term": "brochure",
+          "meaning": "แผ่นพับ, โบรชัวร์"
+        },
+        {
+          "term": "check",
+          "meaning": "ตรวจสอบ"
+        },
+        {
+          "term": "count",
+          "meaning": "นับ"
+        },
+        {
+          "term": "determine",
+          "meaning": "กำหนด, ตัดสิน"
+        },
+        {
+          "term": "distance",
+          "meaning": "ระยะทาง"
+        },
+        {
+          "term": "extend",
+          "meaning": "ขยาย, ต่ออายุ"
+        },
+        {
+          "term": "fix",
+          "meaning": "ซ่อม, แก้ไข"
+        },
+        {
+          "term": "impress",
+          "meaning": "ทำให้ประทับใจ"
+        },
+        {
+          "term": "manufacture",
+          "meaning": "ผลิต"
+        },
+        {
+          "term": "mature",
+          "meaning": "เป็นผู้ใหญ่"
+        },
+        {
+          "term": "morning",
+          "meaning": "ตอนเช้า"
+        },
+        {
+          "term": "official",
+          "meaning": "อย่างเป็นทางการ"
+        },
+        {
+          "term": "peaceful",
+          "meaning": "สงบสุข"
+        },
+        {
+          "term": "people",
+          "meaning": "ผู้คน"
+        },
+        {
+          "term": "permission",
+          "meaning": "การอนุญาต"
+        },
+        {
+          "term": "policy",
+          "meaning": "นโยบาย"
+        },
+        {
+          "term": "poor",
+          "meaning": "จน, น่าสงสาร"
+        },
+        {
+          "term": "promote",
+          "meaning": "เลื่อนตำแหน่ง, ส่งเสริม"
+        },
+        {
+          "term": "ready",
+          "meaning": "พร้อม"
+        },
+        {
+          "term": "review",
+          "meaning": "การทบทวน, รีวิว"
+        },
+        {
+          "term": "rough",
+          "meaning": "หยาบ, ลำบาก"
+        },
+        {
+          "term": "ruin",
+          "meaning": "ทำลาย, ทำพัง"
+        },
+        {
+          "term": "solve",
+          "meaning": "แก้ปัญหา"
+        },
+        {
+          "term": "strict",
+          "meaning": "เข้มงวด"
+        },
+        {
+          "term": "while",
+          "meaning": "ขณะที่"
         }
       ]
     }
