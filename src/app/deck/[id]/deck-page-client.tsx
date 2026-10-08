@@ -43,6 +43,8 @@ export function DeckPageClient({ deckId }: { deckId: string }) {
   }
 
   const dueCount = cards.filter((card) => dueIds.has(card.id)).length;
+  const rememberedCount = cards.length - dueCount;
+  const progress = cards.length ? Math.round((rememberedCount / cards.length) * 100) : 0;
   const existingTerms = cards.map((card) => card.term.toLowerCase());
 
   function saveTitle() {
@@ -88,7 +90,7 @@ export function DeckPageClient({ deckId }: { deckId: string }) {
   }
 
   return (
-    <main className="page-shell has-sticky">
+    <main className="page-shell deck-page has-sticky">
       <Topbar>
         <Link href="/" className="iconbtn"><ChevronLeft aria-hidden="true" /> หน้าแรก</Link>
         <button type="button" className="iconbtn round danger" onClick={() => setShowDelete(true)} aria-label="ลบกองนี้">
@@ -96,6 +98,8 @@ export function DeckPageClient({ deckId }: { deckId: string }) {
         </button>
       </Topbar>
 
+      <div className="deck-layout">
+      <aside className="deck-side">
       {renaming ? (
         <div className="title-edit">
           <label className="sr-only" htmlFor="deck-rename">ชื่อกอง</label>
@@ -117,13 +121,17 @@ export function DeckPageClient({ deckId }: { deckId: string }) {
         </button>
       )}
       <div className="deck-stats">
-        <span className="meter" aria-hidden="true"><span style={{ width: `${cards.length ? ((cards.length - dueCount) / cards.length) * 100 : 0}%` }} /></span>
-        <p className="sub">ยังจำไม่ได้ {dueCount} · จำได้แล้ว {cards.length - dueCount}</p>
-        {cards.length - dueCount > 0 && (
-          <button type="button" className="textbtn" onClick={() => setShowReset(true)}>
-            <RotateCcw aria-hidden="true" /> รีเซ็ตกอง
-          </button>
-        )}
+        <div className="stat-tile learning"><b>{dueCount}</b><span>ยังจำไม่ได้</span></div>
+        <div className="stat-tile remembered"><b>{rememberedCount}</b><span>จำได้แล้ว</span></div>
+        <div className="deck-progress">
+          <span className="meter" aria-hidden="true"><span style={{ width: `${progress}%` }} /></span>
+          <span className="pct">{progress}%</span>
+          {rememberedCount > 0 && (
+            <button type="button" className="textbtn" onClick={() => setShowReset(true)}>
+              <RotateCcw aria-hidden="true" /> รีเซ็ตกอง
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="actions">
@@ -172,6 +180,16 @@ export function DeckPageClient({ deckId }: { deckId: string }) {
         )}
       </details>
 
+      <div className="sticky">
+        {dueCount
+          ? <Link href={`/study?deck=${deckId}`} className="btn btn-primary">สุ่มฝึกกองนี้ ({Math.min(dueCount, 20)} คำ)</Link>
+          : cards.length
+            ? <Link href={`/study?deck=${deckId}&all=1`} className="btn btn-primary"><RotateCcw strokeWidth={2.4} aria-hidden="true" /> ฝึกทั้งกองอีกครั้ง ({Math.min(cards.length, 20)} คำ)</Link>
+            : <button type="button" className="btn btn-primary" disabled>ยังไม่มีคำในกองนี้</button>}
+      </div>
+      </aside>
+
+      <section className="deck-main" aria-label="คำในกองนี้">
       <div className="section-head">
         <h2>คำในกองนี้{cards.length > 0 && <span className="count">{cards.length}</span>}</h2>
         {cards.length > 0 && <span className="section-hint">แตะคำเพื่อแก้ไข</span>}
@@ -188,13 +206,7 @@ export function DeckPageClient({ deckId }: { deckId: string }) {
           />
         )) : <li className="empty">ยังไม่มีคำในกองนี้ กด “เพิ่มคำลงกองนี้” เพื่อเริ่ม</li>}
       </ul>
-
-      <div className="sticky">
-        {dueCount
-          ? <Link href={`/study?deck=${deckId}`} className="btn btn-primary">สุ่มฝึกกองนี้ ({Math.min(dueCount, 20)} คำ)</Link>
-          : cards.length
-            ? <Link href={`/study?deck=${deckId}&all=1`} className="btn btn-primary"><RotateCcw strokeWidth={2.4} aria-hidden="true" /> ฝึกทั้งกองอีกครั้ง ({Math.min(cards.length, 20)} คำ)</Link>
-            : <button type="button" className="btn btn-primary" disabled>ยังไม่มีคำในกองนี้</button>}
+      </section>
       </div>
 
       <ConfirmDialog
