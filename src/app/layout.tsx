@@ -22,6 +22,15 @@ export const metadata: Metadata = {
   title: "FlashFlip",
   description: "ฝึกจำคำศัพท์ภาษาอังกฤษ พิมพ์คำแล้วเลือกความหมายได้เลย แล้วสุ่มฝึกเฉพาะคำที่ยังจำไม่ได้",
   applicationName: "FlashFlip",
+  metadataBase: new URL("https://flashflip-delta.vercel.app"),
+  openGraph: {
+    title: "FlashFlip",
+    description: "ฝึกจำคำศัพท์ภาษาอังกฤษ พิมพ์คำแล้วเลือกความหมายได้เลย แล้วสุ่มฝึกเฉพาะคำที่ยังจำไม่ได้",
+    siteName: "FlashFlip",
+    type: "website",
+    locale: "th_TH",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
