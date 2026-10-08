@@ -39,12 +39,15 @@ export function SunMascot({ size = 112, float = false }: { size?: number; float?
           />
         ))}
       </g>
-      <circle cx="60" cy="60" r="38" fill={`url(#${face})`} />
-      <ellipse cx="43" cy="67" rx="7" ry="4" fill="#F7A6A6" opacity=".55" />
-      <ellipse cx="77" cy="67" rx="7" ry="4" fill="#F7A6A6" opacity=".55" />
-      <path d="M43 54c2.5-3 6.5-3 9 0M68 54c2.5-3 6.5-3 9 0" fill="none" stroke="#674E2D" strokeWidth="3" strokeLinecap="round" />
-      <path d="M50 69c6 6 14 6 20 0" fill="none" stroke="#674E2D" strokeWidth="3" strokeLinecap="round" />
-      <circle cx="38" cy="39" r="7" fill="#fff" opacity=".35" />
+      <circle cx="60" cy="60" r="35" fill={`url(#${face})`} />
+      <ellipse cx="47" cy="44" rx="11" ry="6" fill="#fff" opacity=".55" transform="rotate(-25 47 44)" />
+      <ellipse cx="42" cy="68" rx="7" ry="4.5" fill="#FF8FAB" opacity=".75" />
+      <ellipse cx="78" cy="68" rx="7" ry="4.5" fill="#FF8FAB" opacity=".75" />
+      <g stroke="#3B2E4A" strokeWidth="3.6" fill="none" strokeLinecap="round">
+        <path d="M43 60q6-7 12 0" />
+        <path d="M65 60q6-7 12 0" />
+        <path d="M53 70q7 7 14 0" />
+      </g>
     </svg>
   );
 }

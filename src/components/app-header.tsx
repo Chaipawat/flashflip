@@ -1,13 +1,15 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
-export function AppHeader() {
+export function Brand() {
   return (
-    <header className="app-header">
-      <Link href="/" className="brand" aria-label="FlashFlip หน้าแรก">
-        <span className="brand-mark" aria-hidden="true"><i /><i /></span>
-        FlashFlip
-      </Link>
-      <span className="local-badge">เก็บข้อมูลบนเครื่องนี้</span>
-    </header>
+    <Link href="/" className="brand" aria-label="FlashFlip หน้าแรก">
+      <span className="brand-mark" aria-hidden="true"><i /><i /></span>
+      FlashFlip
+    </Link>
   );
+}
+
+export function Topbar({ children }: { children: ReactNode }) {
+  return <header className="topbar">{children}</header>;
 }

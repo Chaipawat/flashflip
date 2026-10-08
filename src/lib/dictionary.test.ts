@@ -1,7 +1,21 @@
 import { describe, expect, it } from "vitest";
 import entries from "../data/dictionary.json";
-import { defaultMeaning, dictionarySchema, lookup, searchDictionary } from "./dictionary";
+import { z } from "zod";
+import { defaultMeaning, lookup, searchDictionary } from "./dictionary";
 import type { DictEntry } from "./types";
+
+// Shape rules for data/dictionary.json (see SPEC 5.1).
+const dictionarySchema = z.array(
+  z.object({
+    t: z.string().min(1).regex(/^[a-z][a-z '-]*$/),
+    s: z.array(
+      z.object({
+        pos: z.enum(["n", "v", "adj", "adv", "prep", "conj", "phr"]),
+        m: z.array(z.string().min(1)).min(1).max(3),
+      }),
+    ).min(1),
+  }),
+);
 
 const sample: DictEntry[] = [
   { t: "cat", s: [{ pos: "n", m: ["แมว"] }] },

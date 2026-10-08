@@ -1,1 +1,5 @@
-export default function Loading() { return <main className="page-shell"><div className="skeleton title-skeleton" /><div className="skeleton hero-skeleton" /><div className="skeleton row-skeleton" /></main>; }
+import { DeckSkeleton } from "@/components/skeletons";
+
+export default function Loading() {
+  return <DeckSkeleton />;
+}

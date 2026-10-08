@@ -1,79 +1,98 @@
 "use client";
 
-import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
-import { ArrowLeft, Check, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Check, ChevronLeft, Search } from "lucide-react";
 import { toast } from "sonner";
-import entries from "@/data/dictionary.json";
-import { AppHeader } from "@/components/app-header";
-import { useAppData } from "@/components/app-provider";
-import { searchDictionary } from "@/lib/dictionary";
-import type { Card, DictEntry } from "@/lib/types";
+import { Topbar } from "@/components/app-header";
+import { latestDeck, useAppData } from "@/components/app-provider";
+import { AddSkeleton } from "@/components/skeletons";
+import { lookup, searchDictionary } from "@/lib/dictionary";
+import type { DictEntry } from "@/lib/types";
 
-const dictionary = entries as DictEntry[];
 const POS: Record<string, string> = {
-  n: "คำนาม", v: "คำกริยา", adj: "คำคุณศัพท์", adv: "คำวิเศษณ์",
-  prep: "คำบุพบท", conj: "คำสันธาน", phr: "วลี",
+  n: "คำนาม", v: "กริยา", adj: "คุณศัพท์", adv: "กริยาวิเศษณ์",
+  prep: "บุพบท", conj: "คำเชื่อม", phr: "วลี",
 };
 
+type RecentWord = { id: string; term: string; meaning: string; deckTitle: string };
+
 export function AddWordPage({ initialDeckId }: { initialDeckId?: string }) {
+  const router = useRouter();
   const { data, ready, addCard, ensureDefaultDeck } = useAppData();
+  const [dictionary, setDictionary] = useState<DictEntry[] | null>(null);
   const [deckId, setDeckId] = useState(initialDeckId ?? "");
   const [query, setQuery] = useState("");
-  const [matches, setMatches] = useState<DictEntry[]>([]);
+  const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [selected, setSelected] = useState<DictEntry | null>(null);
   const [selectedMeanings, setSelectedMeanings] = useState<string[]>([]);
   const [customMeaning, setCustomMeaning] = useState("");
-  const [recent, setRecent] = useState<Card[]>([]);
+  const [recent, setRecent] = useState<RecentWord[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const resolvedDeckId = data.decks.some((deck) => deck.id === deckId)
-    ? deckId
-    : (data.decks.at(-1)?.id ?? "");
-  const targetDeck = data.decks.find((deck) => deck.id === resolvedDeckId);
-  const term = (selected?.t ?? query).trim().toLowerCase();
-  const duplicate = Boolean(
-    resolvedDeckId && data.cards.some((card) => card.deckId === resolvedDeckId && card.term.toLowerCase() === term),
-  );
-  const canAdd = term.length > 0 && (selectedMeanings.length > 0 || customMeaning.trim()) && !duplicate;
-  const showCustom = query.trim().length >= 2 && matches.length === 0 && !selected;
+  useEffect(() => {
+    let cancelled = false;
+    import("@/data/dictionary.json").then((module) => {
+      if (!cancelled) setDictionary(module.default as DictEntry[]);
+    });
+    return () => { cancelled = true; };
+  }, []);
 
-  const joinedMeaning = useMemo(
-    () => [...selectedMeanings, customMeaning.trim()].filter(Boolean).join(", "),
-    [customMeaning, selectedMeanings],
+  const matches = useMemo(
+    () => (dictionary && !selected ? searchDictionary(dictionary, query) : []),
+    [dictionary, query, selected],
   );
+  const listOpen = open && matches.length > 0;
+  const trimmed = query.trim();
+  const notFound = !selected && dictionary !== null && trimmed.length >= 2 && matches.length === 0;
+
+  const targetDeck = data.decks.find((deck) => deck.id === deckId) ?? latestDeck(data);
+  const term = selected?.t ?? trimmed;
+  const duplicate = Boolean(
+    targetDeck && term && data.cards.some(
+      (card) => card.deckId === targetDeck.id && card.term.toLowerCase() === term.toLowerCase(),
+    ),
+  );
+  const joinedMeaning = [...selectedMeanings, customMeaning.trim()].filter(Boolean).join(", ");
+  const canAdd = (Boolean(selected) || notFound) && joinedMeaning.length > 0 && !duplicate;
 
   function changeQuery(value: string) {
     setQuery(value);
-    if (selected && value.toLowerCase() !== selected.t) {
+    setOpen(true);
+    setActive(0);
+    if (selected && value.trim().toLowerCase() !== selected.t) {
       setSelected(null);
       setSelectedMeanings([]);
       setCustomMeaning("");
     }
-    const results = searchDictionary(dictionary, value);
-    setMatches(results);
-    setActive(0);
   }
 
   function choose(entry: DictEntry) {
     setSelected(entry);
     setQuery(entry.t);
-    setMatches([]);
+    setOpen(false);
     setSelectedMeanings([entry.s[0].m[0]]);
     setCustomMeaning("");
   }
 
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (matches.length && event.key === "ArrowDown") {
-      event.preventDefault(); setActive((value) => (value + 1) % matches.length);
-    } else if (matches.length && event.key === "ArrowUp") {
-      event.preventDefault(); setActive((value) => (value - 1 + matches.length) % matches.length);
-    } else if (event.key === "Escape") setMatches([]);
-    else if (event.key === "Enter") {
+    if (listOpen && event.key === "ArrowDown") {
       event.preventDefault();
-      if (matches.length) choose(matches[active]);
-      else if (canAdd) submitWord();
+      setActive((value) => (value + 1) % matches.length);
+    } else if (listOpen && event.key === "ArrowUp") {
+      event.preventDefault();
+      setActive((value) => (value - 1 + matches.length) % matches.length);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      if (listOpen) choose(matches[active]);
+      else if (selected || notFound) submitWord();
+      else {
+        const exact = dictionary && lookup(dictionary, query);
+        if (exact) choose(exact);
+      }
     }
   }
 
@@ -84,99 +103,152 @@ export function AddWordPage({ initialDeckId }: { initialDeckId?: string }) {
   }
 
   function submitWord() {
-    if (!canAdd) return;
-    const target = targetDeck ?? ensureDefaultDeck();
-    const card = addCard(target.id, term, joinedMeaning);
-    setRecent((current) => [card, ...current]);
-    setDeckId(target.id);
-    toast.success(`เพิ่ม “${term}” แล้ว`);
-    setQuery(""); setSelected(null); setSelectedMeanings([]); setCustomMeaning(""); setMatches([]);
+    if (!canAdd) {
+      if (duplicate) toast(`มี “${term}” ในกองนี้แล้ว`);
+      else if (!joinedMeaning) toast("เลือกหรือพิมพ์ความหมายก่อน");
+      return;
+    }
+    const deck = targetDeck ?? ensureDefaultDeck();
+    const card = addCard(deck.id, term, joinedMeaning);
+    setRecent((current) => [{ id: card.id, term: card.term, meaning: card.meaning, deckTitle: deck.title }, ...current]);
+    setDeckId(deck.id);
+    toast(`เพิ่ม “${card.term}” แล้ว`);
+    setQuery(""); setSelected(null); setSelectedMeanings([]); setCustomMeaning(""); setOpen(false);
     requestAnimationFrame(() => inputRef.current?.focus());
   }
 
-  if (!ready) return <main className="page-shell"><div className="skeleton hero-skeleton" /></main>;
+  function goBack() {
+    if (window.history.length > 1) router.back();
+    else router.push("/");
+  }
+
+  if (!ready) return <AddSkeleton />;
 
   return (
-    <main className="page-shell add-page">
-      <AppHeader />
-      <div className="page-topline">
-        <Link href={targetDeck ? `/deck/${targetDeck.id}` : "/"} className="back-link"><ArrowLeft /> เสร็จแล้ว</Link>
-      </div>
-      <h1>เพิ่มคำ</h1>
+    <main className="page-shell">
+      <Topbar>
+        <button type="button" className="iconbtn" onClick={goBack}>
+          <ChevronLeft aria-hidden="true" /> เสร็จแล้ว
+        </button>
+      </Topbar>
+      <h1 className="h1">เพิ่มคำ</h1>
 
-      <div className="deck-picker">
+      <div className="pilepick">
         <label htmlFor="deck-picker">เพิ่มลงกอง</label>
-        {data.decks.length ? (
-          <select id="deck-picker" value={resolvedDeckId} onChange={(event) => setDeckId(event.target.value)}>
+        {targetDeck ? (
+          <select id="deck-picker" value={targetDeck.id} onChange={(event) => setDeckId(event.target.value)}>
             {data.decks.map((deck) => <option key={deck.id} value={deck.id}>{deck.title}</option>)}
           </select>
-        ) : <strong>กองของฉัน</strong>}
+        ) : <strong id="deck-picker">กองของฉัน</strong>}
       </div>
 
-      <section className="search-section">
-        <div className="search-box">
-          <Search aria-hidden="true" />
-          <label className="sr-only" htmlFor="word-search">คำภาษาอังกฤษ</label>
-          <input
-            ref={inputRef}
-            id="word-search"
-            value={query}
-            onChange={(event) => changeQuery(event.target.value)}
-            onKeyDown={onKeyDown}
-            placeholder="พิมพ์คำอังกฤษ เช่น ne…"
-            autoComplete="off"
-            autoCapitalize="none"
-            spellCheck={false}
-            role="combobox"
-            aria-expanded={matches.length > 0}
-            aria-controls="word-suggestions"
-            aria-activedescendant={matches.length ? `suggestion-${active}` : undefined}
-            autoFocus
-          />
-        </div>
-        {matches.length > 0 && (
-          <ul id="word-suggestions" className="suggestions" role="listbox">
-            {matches.map((entry, index) => (
-              <li key={entry.t} id={`suggestion-${index}`} role="option" aria-selected={active === index}>
-                <button onMouseDown={(event) => event.preventDefault()} onClick={() => choose(entry)}>
-                  <strong>{entry.t}</strong><span>{entry.s[0].m.join(", ")}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <div className="combo">
+        <Search className="si" aria-hidden="true" />
+        <label className="sr-only" htmlFor="word-search">คำภาษาอังกฤษ</label>
+        <input
+          ref={inputRef}
+          id="word-search"
+          className="field"
+          value={query}
+          onChange={(event) => changeQuery(event.target.value)}
+          onKeyDown={onKeyDown}
+          onBlur={() => setOpen(false)}
+          onFocus={() => setOpen(true)}
+          placeholder="พิมพ์คำอังกฤษ เช่น ne…"
+          autoComplete="off"
+          autoCapitalize="none"
+          spellCheck={false}
+          maxLength={100}
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={listOpen}
+          aria-controls="word-suggestions"
+          aria-activedescendant={listOpen ? `suggestion-${active}` : undefined}
+          autoFocus
+        />
+        <ul id="word-suggestions" className="sugg" role="listbox" aria-label="คำแนะนำ" hidden={!listOpen}>
+          {listOpen && matches.map((entry, index) => (
+            <li
+              key={entry.t}
+              id={`suggestion-${index}`}
+              role="option"
+              aria-selected={active === index}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => choose(entry)}
+            >
+              <span className="st"><Highlight text={entry.t} query={trimmed} /></span>
+              <span className="sm">{entry.s[0].m.join(", ")}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      {(selected || showCustom) && (
-        <section className="meaning-card">
-          <h2>{term}</h2>
+      {(selected || notFound) && (
+        <section className="picked" aria-label={`ความหมายของ ${term}`}>
+          <div className="pw">{term}</div>
           {selected ? (
             <>
-              <p>แตะเลือกความหมายที่อยากจำ เลือกได้มากกว่าหนึ่ง</p>
+              <p className="ph">แตะเลือกความหมายที่อยากจำ เลือกได้มากกว่าหนึ่ง</p>
               {selected.s.map((sense) => (
-                <div key={`${sense.pos}-${sense.m.join()}`} className="sense-group">
-                  <span className="part-of-speech">{POS[sense.pos]}</span>
-                  <div className="meaning-chips">
+                <div key={`${sense.pos}-${sense.m.join()}`}>
+                  <div className="pos">{POS[sense.pos] ?? sense.pos}</div>
+                  <div className="chips">
                     {sense.m.map((meaning) => {
                       const checked = selectedMeanings.includes(meaning);
-                      return <button key={meaning} className={checked ? "selected" : ""} aria-pressed={checked} onClick={() => toggleMeaning(meaning)}>{checked && <Check />} {meaning}</button>;
+                      return (
+                        <button key={meaning} type="button" className="chip" aria-pressed={checked} onClick={() => toggleMeaning(meaning)}>
+                          <Check strokeWidth={3} aria-hidden="true" />{meaning}
+                        </button>
+                      );
                     })}
                   </div>
                 </div>
               ))}
             </>
-          ) : <p>ไม่พบ “{term}” ในพจนานุกรม พิมพ์ความหมายเองได้เลย</p>}
-          <label htmlFor="custom-meaning">{selected ? "หรือพิมพ์ความหมายเอง" : "ความหมาย"}</label>
-          <input id="custom-meaning" value={customMeaning} onChange={(event) => setCustomMeaning(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); submitWord(); } }} maxLength={300} placeholder="ความหมายภาษาไทย" />
-          {duplicate && <p className="duplicate-note">มี “{term}” ในกอง {targetDeck?.title ?? "กองของฉัน"} แล้ว</p>}
-          <button className="primary-button full" disabled={!canAdd} onClick={submitWord}>เพิ่ม “{term}” ลงกอง</button>
+          ) : <p className="empty">ไม่พบ “{term}” ในพจนานุกรม พิมพ์ความหมายเองได้เลย</p>}
+          <div className="custom">
+            <label htmlFor="custom-meaning">{selected ? "หรือพิมพ์ความหมายเอง" : "ความหมาย"}</label>
+            <input
+              id="custom-meaning"
+              className="field soft"
+              value={customMeaning}
+              onChange={(event) => setCustomMeaning(event.target.value)}
+              onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); submitWord(); } }}
+              maxLength={300}
+              placeholder="ความหมายภาษาไทย"
+              autoComplete="off"
+            />
+          </div>
+          {duplicate && <p className="dupnote" role="status">มี “{term}” ในกอง {targetDeck?.title} แล้ว</p>}
+          <button type="button" className="btn btn-primary" disabled={!canAdd} onClick={submitWord}>
+            เพิ่ม “{term}” ลงกอง
+          </button>
         </section>
       )}
 
-      <section className="recent-section">
-        <h2>เพิ่มแล้วรอบนี้{recent.length ? ` ${recent.length} คำ` : ""}</h2>
-        {recent.length ? <ul className="word-list">{recent.map((card) => <li key={card.id} className="word-row"><span><strong>{card.term}</strong><small>{card.meaning}</small></span><span className="status-pill learning">{data.decks.find((deck) => deck.id === card.deckId)?.title}</span></li>)}</ul> : <p className="empty-inline">คำที่เพิ่มจะขึ้นตรงนี้</p>}
+      <section className="recent" aria-labelledby="recent-heading">
+        <h2 id="recent-heading">เพิ่มแล้วรอบนี้{recent.length ? ` ${recent.length} คำ` : ""}</h2>
+        <ul className="words">
+          {recent.length ? recent.map((word, index) => (
+            <li key={word.id} className={`word${index === 0 ? " new" : ""}`}>
+              <span><span className="t">{word.term}</span><span className="m">{word.meaning}</span></span>
+              <span className="pill learning">{word.deckTitle}</span>
+            </li>
+          )) : <li className="empty">คำที่เพิ่มจะขึ้นตรงนี้</li>}
+        </ul>
       </section>
     </main>
+  );
+}
+
+function Highlight({ text, query }: { text: string; query: string }) {
+  const index = query ? text.indexOf(query.toLowerCase()) : -1;
+  if (index < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark>{text.slice(index, index + query.length)}</mark>
+      {text.slice(index + query.length)}
+    </>
   );
 }

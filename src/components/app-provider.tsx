@@ -9,7 +9,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { AppData, Card, Deck, ReviewState } from "@/lib/types";
+import { toast } from "sonner";
+import { nextReviewState } from "@/lib/leitner";
+import type { AppData, Card, Deck, ReviewState, SampleDeck } from "@/lib/types";
 
 const STORAGE_KEY = "flashflip-data-v2";
 const EMPTY_DATA: AppData = { decks: [], cards: [], reviews: [] };
@@ -25,7 +27,10 @@ type AppContextValue = {
   updateCard: (id: string, term: string, meaning: string) => void;
   deleteCard: (id: string) => void;
   saveReview: (review: ReviewState) => void;
+  /** Puts cards back into the pile by dropping their review state. */
+  resetReviews: (cardIds: string[]) => void;
   ensureDefaultDeck: () => Deck;
+  importSampleDecks: (decks: SampleDeck[]) => void;
 };
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -40,6 +45,17 @@ function isStoredData(value: unknown): value is AppData {
   return Array.isArray(data.decks) && Array.isArray(data.cards) && Array.isArray(data.reviews);
 }
 
+function readStorage(): AppData | null {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return null;
+    const parsed: unknown = JSON.parse(stored);
+    return isStoredData(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<AppData>(EMPTY_DATA);
   const [ready, setReady] = useState(false);
@@ -47,23 +63,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     queueMicrotask(() => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed: unknown = JSON.parse(stored);
-          if (!cancelled && isStoredData(parsed)) setData(parsed);
-        }
-      } catch {
-        localStorage.removeItem(STORAGE_KEY);
-      } finally {
-        if (!cancelled) setReady(true);
-      }
+      const stored = readStorage();
+      if (cancelled) return;
+      if (stored) setData(stored);
+      setReady(true);
     });
-    return () => { cancelled = true; };
+    // Keep open tabs in sync so the last tab to save doesn't wipe the others' changes.
+    function onStorage(event: StorageEvent) {
+      if (event.key !== STORAGE_KEY) return;
+      const stored = readStorage();
+      if (stored) setData(stored);
+    }
+    window.addEventListener("storage", onStorage);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("storage", onStorage);
+    };
   }, []);
 
   useEffect(() => {
-    if (ready) localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    if (!ready) return;
+    try {
+      const serialized = JSON.stringify(data);
+      if (localStorage.getItem(STORAGE_KEY) !== serialized) localStorage.setItem(STORAGE_KEY, serialized);
+    } catch {
+      toast.error("บันทึกไม่สำเร็จ พื้นที่ในเบราว์เซอร์อาจเต็มหรือถูกปิดไว้");
+    }
   }, [data, ready]);
 
   const createDeck = useCallback((title: string) => {
@@ -74,10 +99,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const ensureDefaultDeck = useCallback(() => {
-    const existing = data.decks.at(-1);
-    if (existing) return existing;
-    return createDeck("กองของฉัน");
-  }, [createDeck, data.decks]);
+    return latestDeck(data) ?? createDeck("กองของฉัน");
+  }, [createDeck, data]);
 
   const renameDeck = useCallback((id: string, title: string) => {
     setData((current) => ({
@@ -147,6 +170,45 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const resetReviews = useCallback((cardIds: string[]) => {
+    const ids = new Set(cardIds);
+    setData((current) => ({ ...current, reviews: current.reviews.filter((review) => !ids.has(review.cardId)) }));
+  }, []);
+
+  const importSampleDecks = useCallback((samples: SampleDeck[]) => {
+    const now = new Date();
+    const remembered = nextReviewState({ box: 0 }, "remembered", now);
+    setData((current) => {
+      const decks: Deck[] = [];
+      const cards: Card[] = [];
+      const reviews: ReviewState[] = [];
+      samples.forEach((sample, deckIndex) => {
+        const stamp = new Date(now.getTime() + deckIndex).toISOString();
+        const deck = { id: makeId(), title: sample.title, createdAt: stamp, updatedAt: stamp };
+        decks.push(deck);
+        sample.cards.forEach((sampleCard, cardIndex) => {
+          const card = {
+            id: makeId(),
+            deckId: deck.id,
+            term: sampleCard.term,
+            meaning: sampleCard.meaning,
+            createdAt: new Date(now.getTime() - deckIndex * 1000 - cardIndex).toISOString(),
+          };
+          cards.push(card);
+          if (sampleCard.remembered) {
+            reviews.push({ cardId: card.id, box: remembered.box, dueAt: remembered.dueAt.toISOString(), lastReviewedAt: now.toISOString() });
+          }
+        });
+      });
+      return {
+        // Home lists newest decks first, so append in reverse to keep the sample order on screen.
+        decks: [...current.decks, ...decks.reverse()],
+        cards: [...cards, ...current.cards],
+        reviews: [...current.reviews, ...reviews],
+      };
+    });
+  }, []);
+
   const value = useMemo(
     () => ({
       data,
@@ -159,7 +221,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       updateCard,
       deleteCard,
       saveReview,
+      resetReviews,
       ensureDefaultDeck,
+      importSampleDecks,
     }),
     [
       data,
@@ -172,7 +236,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       updateCard,
       deleteCard,
       saveReview,
+      resetReviews,
       ensureDefaultDeck,
+      importSampleDecks,
     ],
   );
 
@@ -185,7 +251,19 @@ export function useAppData() {
   return context;
 }
 
-export function isCardDue(cardId: string, reviews: ReviewState[], now = new Date()) {
-  const review = reviews.find((item) => item.cardId === cardId);
-  return !review || new Date(review.dueAt) <= now;
+/** IDs of cards still in the pile: never reviewed, forgotten, or due again. */
+export function dueCardIds(data: AppData, now = new Date()) {
+  const notDue = new Set(
+    data.reviews.filter((review) => new Date(review.dueAt) > now).map((review) => review.cardId),
+  );
+  return new Set(data.cards.filter((card) => !notDue.has(card.id)).map((card) => card.id));
+}
+
+/** The deck that most recently got a card, falling back to the newest deck. */
+export function latestDeck(data: AppData): Deck | undefined {
+  const lastCard = data.cards.reduce<Card | undefined>(
+    (latest, card) => (!latest || card.createdAt > latest.createdAt ? card : latest),
+    undefined,
+  );
+  return data.decks.find((deck) => deck.id === lastCard?.deckId) ?? data.decks.at(-1);
 }

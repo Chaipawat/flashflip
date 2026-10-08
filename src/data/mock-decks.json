@@ -1,0 +1,626 @@
+{
+  "source": "src/data/dictionary.json",
+  "seed": 42,
+  "decks": [
+    {
+      "title": "งานและ TOEIC",
+      "cards": [
+        {
+          "term": "negotiate",
+          "meaning": "ต่อรอง, เจรจา",
+          "remembered": false
+        },
+        {
+          "term": "postpone",
+          "meaning": "เลื่อนออกไป",
+          "remembered": false
+        },
+        {
+          "term": "invoice",
+          "meaning": "ใบแจ้งหนี้",
+          "remembered": false
+        },
+        {
+          "term": "colleague",
+          "meaning": "เพื่อนร่วมงาน",
+          "remembered": false
+        },
+        {
+          "term": "deadline",
+          "meaning": "กำหนดส่ง",
+          "remembered": false
+        },
+        {
+          "term": "reimburse",
+          "meaning": "คืนเงิน, เบิกจ่าย",
+          "remembered": false
+        },
+        {
+          "term": "agenda",
+          "meaning": "วาระการประชุม",
+          "remembered": false
+        },
+        {
+          "term": "schedule",
+          "meaning": "ตารางเวลา",
+          "remembered": false
+        },
+        {
+          "term": "budget",
+          "meaning": "งบประมาณ",
+          "remembered": true
+        },
+        {
+          "term": "meeting",
+          "meaning": "การประชุม",
+          "remembered": true
+        },
+        {
+          "term": "manager",
+          "meaning": "ผู้จัดการ",
+          "remembered": true
+        },
+        {
+          "term": "report",
+          "meaning": "รายงาน",
+          "remembered": true
+        },
+        {
+          "term": "project",
+          "meaning": "โครงการ",
+          "remembered": true
+        },
+        {
+          "term": "attend",
+          "meaning": "เข้าร่วม",
+          "remembered": false
+        },
+        {
+          "term": "approve",
+          "meaning": "อนุมัติ, เห็นชอบ",
+          "remembered": false
+        },
+        {
+          "term": "deposit",
+          "meaning": "เงินมัดจำ",
+          "remembered": false
+        },
+        {
+          "term": "warranty",
+          "meaning": "การรับประกัน",
+          "remembered": false
+        },
+        {
+          "term": "itinerary",
+          "meaning": "กำหนดการเดินทาง",
+          "remembered": false
+        },
+        {
+          "term": "headquarters",
+          "meaning": "สำนักงานใหญ่",
+          "remembered": false
+        },
+        {
+          "term": "supervisor",
+          "meaning": "หัวหน้างาน",
+          "remembered": false
+        },
+        {
+          "term": "workload",
+          "meaning": "ปริมาณงาน",
+          "remembered": false
+        },
+        {
+          "term": "recruit",
+          "meaning": "รับสมัคร, สรรหา",
+          "remembered": false
+        },
+        {
+          "term": "vacancy",
+          "meaning": "ตำแหน่งว่าง, ห้องว่าง",
+          "remembered": false
+        },
+        {
+          "term": "confidential",
+          "meaning": "เป็นความลับ",
+          "remembered": false
+        }
+      ]
+    },
+    {
+      "title": "อารมณ์และความรู้สึก",
+      "cards": [
+        {
+          "term": "awkward",
+          "meaning": "อึดอัด, เก้อเขิน",
+          "remembered": false
+        },
+        {
+          "term": "stubborn",
+          "meaning": "ดื้อ, หัวแข็ง",
+          "remembered": false
+        },
+        {
+          "term": "jealous",
+          "meaning": "อิจฉา, หึง",
+          "remembered": false
+        },
+        {
+          "term": "embarrassed",
+          "meaning": "อาย, เขิน",
+          "remembered": false
+        },
+        {
+          "term": "anxious",
+          "meaning": "กังวล",
+          "remembered": false
+        },
+        {
+          "term": "nervous",
+          "meaning": "ประหม่า, ตื่นเต้น",
+          "remembered": false
+        },
+        {
+          "term": "frustrated",
+          "meaning": "หงุดหงิด, ท้อแท้",
+          "remembered": false
+        },
+        {
+          "term": "grateful",
+          "meaning": "รู้สึกขอบคุณ",
+          "remembered": false
+        },
+        {
+          "term": "guilty",
+          "meaning": "รู้สึกผิด, มีความผิด",
+          "remembered": false
+        },
+        {
+          "term": "proud",
+          "meaning": "ภูมิใจ",
+          "remembered": false
+        },
+        {
+          "term": "lonely",
+          "meaning": "เหงา",
+          "remembered": false
+        },
+        {
+          "term": "excited",
+          "meaning": "ตื่นเต้น",
+          "remembered": true
+        },
+        {
+          "term": "worried",
+          "meaning": "กังวล",
+          "remembered": true
+        },
+        {
+          "term": "scared",
+          "meaning": "กลัว",
+          "remembered": true
+        },
+        {
+          "term": "surprised",
+          "meaning": "ประหลาดใจ",
+          "remembered": false
+        },
+        {
+          "term": "upset",
+          "meaning": "ไม่พอใจ, เสียใจ",
+          "remembered": false
+        },
+        {
+          "term": "bored",
+          "meaning": "เบื่อ",
+          "remembered": true
+        },
+        {
+          "term": "curious",
+          "meaning": "อยากรู้อยากเห็น",
+          "remembered": false
+        },
+        {
+          "term": "confident",
+          "meaning": "มั่นใจ",
+          "remembered": false
+        },
+        {
+          "term": "disappointed",
+          "meaning": "ผิดหวัง",
+          "remembered": false
+        }
+      ]
+    },
+    {
+      "title": "ศัพท์จากซีรีส์",
+      "cards": [
+        {
+          "term": "betray",
+          "meaning": "ทรยศ, หักหลัง",
+          "remembered": false
+        },
+        {
+          "term": "gossip",
+          "meaning": "ข่าวซุบซิบ",
+          "remembered": false
+        },
+        {
+          "term": "revenge",
+          "meaning": "การแก้แค้น",
+          "remembered": false
+        },
+        {
+          "term": "suspicious",
+          "meaning": "น่าสงสัย",
+          "remembered": false
+        },
+        {
+          "term": "pretend",
+          "meaning": "แกล้งทำ, เสแสร้ง",
+          "remembered": false
+        },
+        {
+          "term": "regret",
+          "meaning": "เสียใจ, เสียดาย",
+          "remembered": false
+        },
+        {
+          "term": "apologize",
+          "meaning": "ขอโทษ",
+          "remembered": false
+        },
+        {
+          "term": "forgive",
+          "meaning": "ให้อภัย",
+          "remembered": false
+        },
+        {
+          "term": "cheat",
+          "meaning": "โกง, นอกใจ",
+          "remembered": false
+        },
+        {
+          "term": "hilarious",
+          "meaning": "ตลกมาก",
+          "remembered": false
+        },
+        {
+          "term": "ridiculous",
+          "meaning": "ไร้สาระ, น่าขัน",
+          "remembered": false
+        },
+        {
+          "term": "apparently",
+          "meaning": "ดูเหมือนว่า",
+          "remembered": false
+        },
+        {
+          "term": "literally",
+          "meaning": "แบบตรงตัว, แทบจะ",
+          "remembered": false
+        },
+        {
+          "term": "seriously",
+          "meaning": "อย่างจริงจัง, จริงเหรอ",
+          "remembered": true
+        },
+        {
+          "term": "weird",
+          "meaning": "แปลก",
+          "remembered": true
+        },
+        {
+          "term": "deserve",
+          "meaning": "สมควรได้รับ",
+          "remembered": false
+        },
+        {
+          "term": "admit",
+          "meaning": "ยอมรับ, สารภาพ",
+          "remembered": false
+        },
+        {
+          "term": "deny",
+          "meaning": "ปฏิเสธ",
+          "remembered": false
+        }
+      ]
+    },
+    {
+      "title": "ชีวิตประจำวัน",
+      "cards": [
+        {
+          "term": "cheap",
+          "meaning": "ถูก, ราคาถูก",
+          "remembered": true
+        },
+        {
+          "term": "expensive",
+          "meaning": "แพง",
+          "remembered": true
+        },
+        {
+          "term": "hungry",
+          "meaning": "หิว",
+          "remembered": true
+        },
+        {
+          "term": "delicious",
+          "meaning": "อร่อย",
+          "remembered": true
+        },
+        {
+          "term": "crowded",
+          "meaning": "แออัด, คนเยอะ",
+          "remembered": true
+        },
+        {
+          "term": "weather",
+          "meaning": "สภาพอากาศ",
+          "remembered": true
+        },
+        {
+          "term": "weekend",
+          "meaning": "สุดสัปดาห์",
+          "remembered": true
+        },
+        {
+          "term": "holiday",
+          "meaning": "วันหยุด",
+          "remembered": true
+        },
+        {
+          "term": "restaurant",
+          "meaning": "ร้านอาหาร",
+          "remembered": true
+        },
+        {
+          "term": "ticket",
+          "meaning": "ตั๋ว",
+          "remembered": true
+        },
+        {
+          "term": "price",
+          "meaning": "ราคา",
+          "remembered": true
+        },
+        {
+          "term": "borrow",
+          "meaning": "ยืม",
+          "remembered": true
+        },
+        {
+          "term": "lend",
+          "meaning": "ให้ยืม",
+          "remembered": true
+        },
+        {
+          "term": "afford",
+          "meaning": "มีเงินพอ, สามารถจ่ายได้",
+          "remembered": true
+        },
+        {
+          "term": "convenient",
+          "meaning": "สะดวก",
+          "remembered": true
+        },
+        {
+          "term": "comfortable",
+          "meaning": "สบาย, สะดวกใจ",
+          "remembered": true
+        },
+        {
+          "term": "hurry",
+          "meaning": "รีบ",
+          "remembered": true
+        },
+        {
+          "term": "healthy",
+          "meaning": "สุขภาพดี",
+          "remembered": true
+        },
+        {
+          "term": "symptom",
+          "meaning": "อาการ",
+          "remembered": true
+        },
+        {
+          "term": "prescription",
+          "meaning": "ใบสั่งยา",
+          "remembered": true
+        },
+        {
+          "term": "souvenir",
+          "meaning": "ของที่ระลึก",
+          "remembered": true
+        }
+      ]
+    },
+    {
+      "title": "Phrasal verbs ที่เจอบ่อย",
+      "cards": [
+        {
+          "term": "look forward to",
+          "meaning": "ตั้งตารอ, รอคอย",
+          "remembered": false
+        },
+        {
+          "term": "come up with",
+          "meaning": "คิดขึ้นมา, เสนอไอเดีย",
+          "remembered": false
+        },
+        {
+          "term": "run out of",
+          "meaning": "หมด, ใช้จนหมด",
+          "remembered": false
+        },
+        {
+          "term": "get along with",
+          "meaning": "เข้ากันได้กับ",
+          "remembered": false
+        },
+        {
+          "term": "put up with",
+          "meaning": "ทนกับ",
+          "remembered": false
+        },
+        {
+          "term": "give up",
+          "meaning": "ยอมแพ้, เลิก",
+          "remembered": true
+        },
+        {
+          "term": "find out",
+          "meaning": "รู้ความจริง, ค้นพบ",
+          "remembered": false
+        },
+        {
+          "term": "turn down",
+          "meaning": "ปฏิเสธ, ลดเสียง",
+          "remembered": false
+        },
+        {
+          "term": "show up",
+          "meaning": "มาถึง, โผล่มา",
+          "remembered": false
+        },
+        {
+          "term": "call off",
+          "meaning": "ยกเลิก",
+          "remembered": false
+        },
+        {
+          "term": "figure out",
+          "meaning": "หาคำตอบ, เข้าใจ",
+          "remembered": false
+        },
+        {
+          "term": "put off",
+          "meaning": "เลื่อนออกไป",
+          "remembered": false
+        },
+        {
+          "term": "wake up",
+          "meaning": "ตื่น",
+          "remembered": true
+        },
+        {
+          "term": "look for",
+          "meaning": "มองหา, ค้นหา",
+          "remembered": true
+        },
+        {
+          "term": "look after",
+          "meaning": "ดูแล",
+          "remembered": false
+        },
+        {
+          "term": "pick up",
+          "meaning": "ไปรับ, หยิบขึ้น",
+          "remembered": false
+        },
+        {
+          "term": "hang out",
+          "meaning": "ไปเที่ยวเล่น, สังสรรค์",
+          "remembered": false
+        },
+        {
+          "term": "catch up",
+          "meaning": "ตามทัน, คุยอัปเดตกัน",
+          "remembered": false
+        },
+        {
+          "term": "end up",
+          "meaning": "ลงเอย",
+          "remembered": false
+        },
+        {
+          "term": "get over",
+          "meaning": "ทำใจได้, หายจาก",
+          "remembered": false
+        }
+      ]
+    },
+    {
+      "title": "สุ่มรวมหลายหมวด",
+      "cards": [
+        {
+          "term": "accept",
+          "meaning": "ยอมรับ, รับ",
+          "remembered": false
+        },
+        {
+          "term": "applicant",
+          "meaning": "ผู้สมัคร",
+          "remembered": false
+        },
+        {
+          "term": "beautiful",
+          "meaning": "สวย, งดงาม",
+          "remembered": false
+        },
+        {
+          "term": "begin",
+          "meaning": "เริ่ม",
+          "remembered": false
+        },
+        {
+          "term": "demand",
+          "meaning": "ความต้องการ",
+          "remembered": false
+        },
+        {
+          "term": "gift",
+          "meaning": "ของขวัญ",
+          "remembered": false
+        },
+        {
+          "term": "nearby",
+          "meaning": "ใกล้เคียง",
+          "remembered": false
+        },
+        {
+          "term": "pronounce",
+          "meaning": "ออกเสียง",
+          "remembered": false
+        },
+        {
+          "term": "recommend",
+          "meaning": "แนะนำ",
+          "remembered": false
+        },
+        {
+          "term": "scold",
+          "meaning": "ดุ",
+          "remembered": false
+        },
+        {
+          "term": "size",
+          "meaning": "ขนาด",
+          "remembered": false
+        },
+        {
+          "term": "standard",
+          "meaning": "มาตรฐาน",
+          "remembered": false
+        },
+        {
+          "term": "take",
+          "meaning": "เอาไป, ใช้เวลา, พาไป",
+          "remembered": false
+        },
+        {
+          "term": "tax",
+          "meaning": "ภาษี",
+          "remembered": false
+        },
+        {
+          "term": "waste",
+          "meaning": "ทำให้เสียเปล่า",
+          "remembered": false
+        }
+      ]
+    }
+  ]
+}

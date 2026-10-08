@@ -1,1 +1,5 @@
-export default function Loading() { return <main className="study-shell"><div className="skeleton title-skeleton" /><div className="skeleton flashcard-skeleton" /></main>; }
+import { StudySkeleton } from "@/components/skeletons";
+
+export default function Loading() {
+  return <StudySkeleton />;
+}

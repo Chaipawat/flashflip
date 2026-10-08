@@ -1,2 +1,7 @@
 "use client";
-export default function ErrorPage({ reset }: { reset: () => void }) { return <main className="center-state"><h1>เปิดหน้าเพิ่มคำไม่สำเร็จ</h1><button className="primary-button" onClick={reset}>ลองใหม่</button></main>; }
+
+import { ErrorState } from "@/components/error-state";
+
+export default function ErrorPage({ reset }: { reset: () => void }) {
+  return <ErrorState title="เปิดหน้าเพิ่มคำไม่สำเร็จ" reset={reset} />;
+}

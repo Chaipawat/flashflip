@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E2D8FF"/>
+      <stop offset="1" stop-color="#B49BFC"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="10" width="38" height="30" rx="10" fill="#FFB3C7" transform="rotate(-10 25 25)"/>
+  <rect x="20" y="24" width="38" height="30" rx="10" fill="url(#card)" transform="rotate(6 39 39)"/>
+</svg>
