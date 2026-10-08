@@ -33,4 +33,19 @@ describe("sample vocabulary decks", () => {
       expect(titles.has(title)).toBe(true);
     }
   });
+
+  it("contains every category used for the six first-run decks", () => {
+    const titles = new Set(mock.decks.map((deck) => deck.title));
+
+    for (const title of [
+      "สุ่มรวมหลายหมวด",
+      "Phrasal verbs ที่เจอบ่อย",
+      "ชีวิตประจำวัน",
+      "ศัพท์จากซีรีส์",
+      "อารมณ์และความรู้สึก",
+      "งานและ TOEIC",
+    ]) {
+      expect(titles.has(title)).toBe(true);
+    }
+  });
 });

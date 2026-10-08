@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowRight, BookOpen, ChevronRight, Layers, MessageCircle, Plus, Sparkles, Star, X } from "lucide-react";
 import { toast } from "sonner";
 import { Brand, Topbar } from "@/components/app-header";
@@ -10,6 +10,16 @@ import { dueCardIds, useAppData } from "@/components/app-provider";
 import { HomeSkeleton } from "@/components/skeletons";
 import { SunMascot } from "@/components/sun-mascot";
 import type { SampleDeck } from "@/lib/types";
+
+const CATEGORY_SEED_KEY = "flashflip-category-decks-v1";
+const DEFAULT_CATEGORY_TITLES = [
+  "สุ่มรวมหลายหมวด",
+  "Phrasal verbs ที่เจอบ่อย",
+  "ชีวิตประจำวัน",
+  "ศัพท์จากซีรีส์",
+  "อารมณ์และความรู้สึก",
+  "งานและ TOEIC",
+] as const;
 
 export default function HomePage() {
   const { data, ready, createDeck, importSampleDecks } = useAppData();
@@ -19,6 +29,27 @@ export default function HomePage() {
   const [loadingSample, setLoadingSample] = useState(false);
   const dueIds = useMemo(() => dueCardIds(data), [data]);
   const dueCards = data.cards.filter((card) => dueIds.has(card.id));
+
+  useEffect(() => {
+    if (!ready || data.decks.length > 0 || data.cards.length > 0) return;
+    if (localStorage.getItem(CATEGORY_SEED_KEY)) return;
+
+    // Claim the seed before the async import so Strict Mode and other tabs cannot add it twice.
+    localStorage.setItem(CATEGORY_SEED_KEY, "1");
+    import("@/data/mock-decks.json")
+      .then((module) => {
+        const samples = module.default.decks as SampleDeck[];
+        const defaults = DEFAULT_CATEGORY_TITLES
+          .map((title) => samples.find((deck) => deck.title === title))
+          .filter((deck): deck is SampleDeck => Boolean(deck));
+        importSampleDecks(defaults);
+        toast(`เตรียมกองเริ่มต้น ${defaults.length} หมวดให้แล้ว`);
+      })
+      .catch(() => {
+        localStorage.removeItem(CATEGORY_SEED_KEY);
+        toast.error("เตรียมกองเริ่มต้นไม่สำเร็จ ลองโหลดหน้าใหม่อีกครั้ง");
+      });
+  }, [data.cards.length, data.decks.length, importSampleDecks, ready]);
 
   function submitDeck(event: React.FormEvent) {
     event.preventDefault();
